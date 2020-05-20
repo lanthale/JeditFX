@@ -1,0 +1,519 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>at.ITArchitects</groupId>
+    <artifactId>JeditFX</artifactId>
+    <version>1.0.0</version>
+    
+    <name>JeditFX</name>
+    
+    <properties>
+        <javafx.version>14.0.1</javafx.version>          
+        <mainClass>at.itarchitects.jeditfx.App</mainClass>
+        <moduleName>JeditFX</moduleName>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
+        <maven.compiler.source>14</maven.compiler.source>
+        <maven.compiler.target>14</maven.compiler.target>       
+    </properties>
+    
+    <repositories>
+        <repository>
+            <id>bintray-jerady-maven</id>
+            <name>bintray</name>
+            <url>https://dl.bintray.com/jerady/maven</url>            
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>                
+    </repositories>
+    
+    <pluginRepositories>
+        <pluginRepository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>bintray-jerady-maven</id>
+            <name>bintray-plugins</name>
+            <url>https://dl.bintray.com/jerady/maven</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <organization>
+        <!-- Used as the 'Vendor' for JNLP generation -->
+        <name>IT Architects</name>
+    </organization>
+    
+    
+    <build>
+        <pluginManagement>
+            <plugins>                               
+                <plugin>
+                    <groupId>org.moditect</groupId>
+                    <artifactId>moditect-maven-plugin</artifactId>
+                    <version>1.0.0.RC1</version>
+                </plugin>
+                <plugin>
+                    <groupId>com.coderplus.maven.plugins</groupId>
+                    <artifactId>copy-rename-maven-plugin</artifactId>
+                    <version>1.0.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.1.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>1.6.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                </plugin>
+                
+                <!-- <plugin>
+                    <groupId>com.gluonhq</groupId>
+                    <artifactId>client-maven-plugin</artifactId>
+                    <version>0.1.16</version>
+                    <configuration>
+                        <target>ios</target>
+                        <graalvmHome>/Library/Java/graalvm-ce-java11-20.0.0/Contents/Home</graalvmHome>
+                        <reflectionList>
+                            <list>javafx.fxml.FXMLLoader</list>
+                            <list>at.itarchitects.jeditfx.JEditFXController</list>                            
+                            <list>de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView</list>
+                            <list>javafx.scene.control.Alert</list>
+                            <list>javafx.scene.control.ButtonType</list>
+                            <list>javafx.scene.control.Label</list>
+                            <list>javafx.scene.control.ProgressBar</list>
+                            <list>javafx.scene.control.TabPane</list>
+                            <list>javafx.scene.control.Tooltip</list>
+                            <list>javafx.scene.input.DragEvent</list>
+                            <list>javafx.scene.input.Dragboard</list>
+                            <list>javafx.scene.input.ScrollEvent</list>
+                            <list>javafx.scene.input.TransferMode</list>
+                            <list>javafx.scene.layout.AnchorPane</list>
+                            <list>javafx.scene.layout.StackPane</list>
+                            <list>javafx.scene.layout.VBox</list>
+                            <list>javafx.stage.FileChooser</list>
+                            <list>javafx.stage.Stage</list>
+                            <list>org.fxmisc.flowless.VirtualizedScrollPane</list>
+                            <list>org.fxmisc.richtext.CodeArea</list>
+                            <list>org.fxmisc.richtext.LineNumberFactory</list>
+                            <list>org.mozilla.universalchardet.UniversalDetector</list>
+                            <list>javafx.geometry.Insets</list>
+                            <list>javafx.scene.control.Button</list>
+                            <list>javafx.scene.control.Label</list>
+                            <list>javafx.scene.control.Menu</list>
+                            <list>javafx.scene.control.MenuBar</list>
+                            <list>javafx.scene.control.MenuItem</list>
+                            <list>javafx.scene.control.ProgressBar</list>
+                            <list>javafx.scene.control.Tab</list>
+                            <list>javafx.scene.control.TabPane</list>                            
+                            <list>javafx.scene.input.KeyCharacterCombination</list>
+                            <list>javafx.scene.input.KeyCodeCombination</list>
+                            <list>javafx.scene.input.KeyCombination</list>                            
+                            <list>javafx.scene.input.KeyEvent</list>
+                            <list>javafx.scene.input.Mnemonic</list>
+                            <list>javafx.geometry.HPos</list>
+                            <list>javafx.scene.layout.AnchorPane</list>
+                            <list>javafx.scene.layout.ColumnConstraints</list>
+                            <list>javafx.scene.layout.GridPane</list>
+                            <list>javafx.scene.layout.HBox</list>
+                            <list>javafx.scene.layout.RowConstraints</list>
+                            <list>javafx.scene.layout.StackPane</list>
+                            <list>javafx.scene.layout.VBox</list>
+                            <list>javafx.scene.text.Font</list>
+                        </reflectionList>
+                        <mainClass>${mainClass}</mainClass>
+                    </configuration>
+                </plugin> -->
+                               
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <release>14</release>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-libs</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/modules</outputDirectory>
+                            <includeScope>runtime</includeScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.coderplus.maven.plugins</groupId>
+                <artifactId>copy-rename-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-target</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <sourceFile>${project.build.directory}/${project.build.finalName}.jar</sourceFile>
+                            <destinationFile>${project.build.directory}/modules/${project.build.finalName}.jar</destinationFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.moditect</groupId>
+                <artifactId>moditect-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-module-info-to-deps</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>add-module-info</goal>
+                        </goals>
+                        <configuration>
+                            <overwriteExistingFiles>true</overwriteExistingFiles>
+                            <jvmVersion>14</jvmVersion>
+                            <modules>  
+                                <module>
+                                    <artifact>
+                                        <groupId>org.fxmisc.richtext</groupId>
+                                        <artifactId>richtextfx</artifactId>                             
+                                    </artifact>                                    
+                                    <moduleInfoSource>
+                                        open module org.fxmisc.richtext {                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                        
+                                        requires javafx.controls;
+                                        requires org.fxmisc.flowless;
+                                        requires org.reactfx;
+                                        requires org.fxmisc.undo; 
+                                        requires org.fxmisc.wellbehaved;   
+    
+                                        exports org.fxmisc.richtext;
+                                        exports org.fxmisc.richtext.model;
+                                        exports org.fxmisc.richtext.event;
+                                        exports org.fxmisc.richtext.util;
+                                        }
+                                    </moduleInfoSource>
+                                </module>
+                                <module>
+                                    <artifact>
+                                        <groupId>org.fxmisc.flowless</groupId>
+                                        <artifactId>flowless</artifactId>
+                                        <version>0.6.1</version>                            
+                                    </artifact>                                    
+                                    <moduleInfoSource>
+                                        open module org.fxmisc.flowless {                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                        
+                                        requires javafx.controls;   
+                                        requires org.reactfx; 
+    
+                                        exports org.fxmisc.flowless;                                        
+                                        }
+                                    </moduleInfoSource>
+                                </module>
+                                <module>
+                                    <artifact>
+                                        <groupId>org.reactfx</groupId>
+                                        <artifactId>reactfx</artifactId>
+                                        <version>2.0-M5</version>                           
+                                    </artifact>                                    
+                                    <moduleInfoSource>
+                                        open module org.reactfx {                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                        
+                                        requires javafx.controls;    
+    
+                                        exports org.reactfx;
+                                        exports org.reactfx.collection;
+                                        exports org.reactfx.inhibeans;
+                                        exports org.reactfx.inhibeans.binding;
+                                        exports org.reactfx.inhibeans.collection;
+                                        exports org.reactfx.inhibeans.property;
+                                        exports org.reactfx.inhibeans.value;
+                                        exports org.reactfx.util;
+                                        exports org.reactfx.value;
+                                        }
+                                    </moduleInfoSource>
+                                </module> 
+                                <module>
+                                    <artifact>
+                                        <groupId>org.fxmisc.undo</groupId>
+                                        <artifactId>undofx</artifactId>
+                                        <version>2.1.0</version>                           
+                                    </artifact>                                    
+                                    <moduleInfoSource>
+                                        open module org.fxmisc.undo {                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                        
+                                        requires javafx.controls; 
+                                        requires org.reactfx;   
+    
+                                        exports org.fxmisc.undo;                                        
+                                        }
+                                    </moduleInfoSource>
+                                </module>
+                                <module>
+                                    <artifact>
+                                        <groupId>org.fxmisc.wellbehaved</groupId>
+                                        <artifactId>wellbehavedfx</artifactId>
+                                        <version>0.3.3</version>                           
+                                    </artifact>                                    
+                                    <moduleInfoSource>
+                                        open module org.fxmisc.wellbehaved {                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                        
+                                        requires javafx.controls;    
+    
+                                        exports org.fxmisc.wellbehaved.event;                                        
+                                        }
+                                    </moduleInfoSource>
+                                </module> 
+                                <module>
+                                    <artifact>
+                                        <groupId>com.github.albfernandez</groupId>
+                                        <artifactId>juniversalchardet</artifactId>                                        
+                                    </artifact>                                    
+                                    <moduleInfoSource>
+                                        open module com.github.albfernandez {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+    
+                                        exports org.mozilla.universalchardet;
+                                        }
+                                    </moduleInfoSource>
+                                </module>                                                              
+                                
+                            </modules>                                                                              
+                            <module>                                                                   
+                                <moduleInfo>
+                                    <name>JeditFX</name>  
+                                    <opens>at.itarchitects.jeditfx;</opens>                                    
+                                </moduleInfo>                                  
+                            </module>   
+                            <jdepsExtraArgs>
+                                <arg>--multi-release</arg>
+                                <arg>11</arg>
+                            </jdepsExtraArgs>                       
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>                        
+        </plugins>
+    </build>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>        
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency> 
+                                            
+        <dependency>
+            <groupId>org.controlsfx</groupId>
+            <artifactId>controlsfx</artifactId>
+            <version>11.0.1</version> 
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>           
+        </dependency>  
+        <dependency>
+            <groupId>de.jensd</groupId>
+            <artifactId>fontawesomefx-commons</artifactId>
+            <version>11.0</version> 
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>           
+        </dependency>
+        <dependency>
+            <groupId>de.jensd</groupId>
+            <artifactId>fontawesomefx-controls</artifactId>
+            <version>11.0</version>   
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>         
+        </dependency>
+        <dependency>
+            <groupId>de.jensd</groupId>
+            <artifactId>fontawesomefx-fontawesome</artifactId>
+            <version>4.7.0-11</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>            
+        </dependency>
+        <dependency>
+            <groupId>org.fxmisc.richtext</groupId>
+            <artifactId>richtextfx</artifactId>
+            <version>0.10.5</version>
+        </dependency> 
+        <dependency>
+            <groupId>com.github.albfernandez</groupId>
+            <artifactId>juniversalchardet</artifactId>
+            <version>2.3.1</version>
+        </dependency>                                                
+                                                                                               
+    </dependencies>
+    
+    
+    <profiles>
+        <profile>
+            <id>macos</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <os>
+                    <family>mac</family>
+                </os>
+            </activation>
+            <properties>
+                <bundle.type>pkg</bundle.type>
+                <exec.executable>${java.home}/bin/java</exec.executable>
+                <icons>${project.build.directory}/../res/icon.icns</icons>
+                <fileicon>${project.build.directory}/../res/fileassociate_osx.properties</fileicon>
+            </properties>
+        </profile>
+        <profile>
+            <id>win</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <properties>
+                <bundle.type>exe</bundle.type>
+                <exec.executable>${java.home}\bin\java</exec.executable> 
+                <icons>${project.build.directory}\..\res\icon.ico</icons>               
+                <fileicon>${project.build.directory}\..\res\fileassociate_win.properties</fileicon>
+            </properties>
+        </profile>        
+        <profile>
+            <id>package</id>                        
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.moditect</groupId>
+                        <artifactId>moditect-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>create-runtime-image</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>create-runtime-image</goal>
+                                </goals>
+                                <configuration>
+                                    <stripDebug>false</stripDebug>
+                                    <compression>2</compression>
+                                    <noHeaderFiles>true</noHeaderFiles>
+                                    <noManPages>true</noManPages>                                    
+                                    <outputDirectory>${project.build.directory}/jlink-image</outputDirectory>
+                                    <modulePath>
+                                        <path>${project.build.directory}/modules</path> <!--our modules-->
+                                    </modulePath>
+                                    <modules> <!--everything we need-->
+                                        <module>${moduleName}</module>
+                                        <module>java.base</module>
+                                        <module>javafx.base</module>                                        
+                                        <module>javafx.fxml</module>                                        
+                                        <module>javafx.controls</module>
+                                        <module>javafx.graphics</module>                                        
+                                        <module>org.controlsfx.controls</module>
+                                        <module>de.jensd.fx.fontawesomefx.commons</module>
+                                        <module>de.jensd.fx.fontawesomefx.controls</module>
+                                        <module>de.jensd.fx.fontawesomefx.fontawesome</module>                                        
+                                        <module>jdk.charsets</module>  
+                                        <module>org.fxmisc.richtext</module>
+                                        <module>org.fxmisc.flowless</module>
+                                        <module>org.reactfx</module>
+                                        <module>org.fxmisc.undo</module>
+                                        <module>org.fxmisc.wellbehaved</module>   
+                                        <module>com.github.albfernandez</module>                                   
+                                    </modules>                                                                                                            
+                                </configuration>
+                            </execution> 
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>create-package</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>${java.home}/bin/jpackage</executable>
+                                    <workingDirectory>${project.build.directory}</workingDirectory>
+                                    <longModulepath>false</longModulepath>
+                                    <environmentVariables>
+                                        <JAVA_HOME>${java.home}</JAVA_HOME>
+                                    </environmentVariables>
+                                    <arguments>
+                                        <argument>--dest</argument>
+                                        <argument>package</argument>
+                                        <argument>--type</argument>
+                                        <argument>app-image</argument>
+                                        <argument>--verbose</argument>                                        
+                                        <argument>--icon</argument>
+                                        <argument>${icons}</argument>                                        
+                                        <argument>--app-version</argument>
+                                        <argument>1.0.0</argument>
+                                        <argument>--copyright</argument>
+                                        <argument>ITArchitects</argument>                                        
+                                        <argument>--name</argument>
+                                        <argument>JeditFX</argument>
+                                        <argument>--runtime-image</argument>
+                                        <argument>${project.build.directory}/jlink-image</argument>
+                                        <argument>--java-options</argument>
+                                        <argument>--add-opens=javafx.graphics/javafx.css=de.jensd.fx.fontawesomefx.commons</argument> 
+                                        <argument>--java-options</argument>    
+                                        <argument>--add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls</argument>                                        
+                                        <argument>--module</argument>
+                                        <argument>${moduleName}/${mainClass}</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>        
+    </profiles>
+</project>
