@@ -30,7 +30,7 @@ jobs:
         restore-keys: ${{ runner.os }}-m2
 
     - name: Build with Maven
-      run: mvn clean compile package -f JeditFX/pom.xml
+      run: mvn clean compile package -Ppackage -f JeditFX/pom.xml
     
     - name: upload-osx
       uses: actions/upload-artifact@v2
