@@ -12,3 +12,6 @@ Commented out in the maven file is also the compiling with GraalVM. Basically fu
 This is my first github project and I do not know how I can do the build of the project automatically. Maybe someone else can pick this up. Just create an issue and I can give you the right to write to the repo.
 
 Let me know if I violete against any copyright things from other projects and I will remove them.
+
+
+![Java CI with Maven](https://github.com/lanthale/JeditFX/workflows/Java%20CI%20with%20Maven/badge.svg)
