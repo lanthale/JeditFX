@@ -11,7 +11,7 @@ on:
 
 jobs:
 
-job1:
+jobs.1:
   build:
 
     runs-on: macos-latest
@@ -34,7 +34,7 @@ job1:
     - name: Build with Maven
       run: mvn -B package -f JeditFX/pom.xml
 
-job2:
+jobs.2:
   build:
 
     runs-on: windows-latest
