@@ -20,5 +20,6 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 14
+        java-package: jdk
     - name: Build with Maven
       run: mvn -B package -f JeditFX/pom.xml
