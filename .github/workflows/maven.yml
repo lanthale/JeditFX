@@ -9,8 +9,6 @@ on:
   pull_request:
     branches: [ master ]
 
-jobs:
-
 jobs.1:
   build:
 
