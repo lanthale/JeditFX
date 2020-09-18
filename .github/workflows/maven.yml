@@ -9,8 +9,8 @@ on:
   pull_request:
     branches: [ master ]
 
-jobs.1:
-  build:
+jobs:
+  build-osx:
 
     runs-on: macos-latest
 
@@ -22,18 +22,17 @@ jobs.1:
         java-version: 14
         java-package: jdk
 
-  - name: Cache Maven packages
-    uses: actions/cache@v2
-    with:
-      path: ~/.m2
-      key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-      restore-keys: ${{ runner.os }}-m2
+    - name: Cache Maven packages
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
 
     - name: Build with Maven
       run: mvn -B package -f JeditFX/pom.xml
 
-jobs.2:
-  build:
+  build-win:
 
     runs-on: windows-latest
 
@@ -45,12 +44,12 @@ jobs.2:
         java-version: 14
         java-package: jdk
 
-  - name: Cache Maven packages
-    uses: actions/cache@v2
-    with:
-      path: ~/.m2
-      key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-      restore-keys: ${{ runner.os }}-m2
+    - name: Cache Maven packages
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
 
     - name: Build with Maven
       run: mvn -B package -f JeditFX/pom.xml
