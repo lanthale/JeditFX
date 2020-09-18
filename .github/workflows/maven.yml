@@ -22,4 +22,4 @@ jobs:
         java-version: 14
         java-package: jdk
     - name: Build with Maven
-      run: mvn -B clean install -f JeditFX/pom.xml
+      run: mvn package -f JeditFX/pom.xml
