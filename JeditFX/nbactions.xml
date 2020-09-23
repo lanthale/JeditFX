@@ -52,5 +52,15 @@
                 <activatedProfile>package</activatedProfile>
             </activatedProfiles>
         </action>
+        <action>
+            <actionName>CUSTOM-graalvm package</actionName>
+            <displayName>graalvm package</displayName>
+            <goals>
+                <goal>client:package</goal>
+            </goals>
+            <activatedProfiles>
+                <activatedProfile>package</activatedProfile>
+            </activatedProfiles>
+        </action>
         
     </actions>

@@ -8,12 +8,12 @@
     <name>JeditFX</name>
     
     <properties>
-        <javafx.version>14.0.1</javafx.version>          
+        <javafx.version>15</javafx.version>          
         <mainClass>at.itarchitects.jeditfx.App</mainClass>
         <moduleName>JeditFX</moduleName>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
-        <maven.compiler.source>14</maven.compiler.source>
-        <maven.compiler.target>14</maven.compiler.target>       
+        <maven.compiler.source>15</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>       
     </properties>
     
     <repositories>
@@ -76,29 +76,14 @@
                 <!-- <plugin>
                     <groupId>com.gluonhq</groupId>
                     <artifactId>client-maven-plugin</artifactId>
-                    <version>0.1.16</version>
+                    <version>0.1.32</version>
                     <configuration>
-                        <target>ios</target>
-                        <graalvmHome>/Library/Java/graalvm-ce-java11-20.0.0/Contents/Home</graalvmHome>
+                        <target>ios</target> 
+                        <graalvmHome>/Library/Java/graalvm-ce-java11-20.2.0/Contents/Home</graalvmHome>
                         <reflectionList>
                             <list>javafx.fxml.FXMLLoader</list>
                             <list>at.itarchitects.jeditfx.JEditFXController</list>                            
-                            <list>de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView</list>
-                            <list>javafx.scene.control.Alert</list>
-                            <list>javafx.scene.control.ButtonType</list>
-                            <list>javafx.scene.control.Label</list>
-                            <list>javafx.scene.control.ProgressBar</list>
-                            <list>javafx.scene.control.TabPane</list>
-                            <list>javafx.scene.control.Tooltip</list>
-                            <list>javafx.scene.input.DragEvent</list>
-                            <list>javafx.scene.input.Dragboard</list>
-                            <list>javafx.scene.input.ScrollEvent</list>
-                            <list>javafx.scene.input.TransferMode</list>
-                            <list>javafx.scene.layout.AnchorPane</list>
-                            <list>javafx.scene.layout.StackPane</list>
-                            <list>javafx.scene.layout.VBox</list>
-                            <list>javafx.stage.FileChooser</list>
-                            <list>javafx.stage.Stage</list>
+                            <list>de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView</list>                            
                             <list>org.fxmisc.flowless.VirtualizedScrollPane</list>
                             <list>org.fxmisc.richtext.CodeArea</list>
                             <list>org.fxmisc.richtext.LineNumberFactory</list>
@@ -129,7 +114,7 @@
                         </reflectionList>
                         <mainClass>${mainClass}</mainClass>
                     </configuration>
-                </plugin> -->
+                </plugin>-->
                                
             </plugins>
         </pluginManagement>
@@ -138,7 +123,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <release>14</release>
+                    <release>11</release>
                 </configuration>
             </plugin>
             <plugin>
@@ -489,7 +474,7 @@
                                         <argument>--dest</argument>
                                         <argument>package</argument>
                                         <argument>--type</argument>
-                                        <argument>app-image</argument>
+                                        <argument>dmg</argument>
                                         <argument>--verbose</argument>                                        
                                         <argument>--icon</argument>
                                         <argument>${icons}</argument>                                        
