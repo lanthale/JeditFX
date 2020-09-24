@@ -474,7 +474,7 @@
                                         <argument>--dest</argument>
                                         <argument>package</argument>
                                         <argument>--type</argument>
-                                        <argument>dmg</argument>
+                                        <argument>pkg</argument>
                                         <argument>--verbose</argument>                                        
                                         <argument>--icon</argument>
                                         <argument>${icons}</argument>                                        
