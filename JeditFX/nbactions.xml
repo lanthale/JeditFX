@@ -24,7 +24,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address} --add-opens=javafx.graphics/javafx.css=de.jensd.fx.fontawesomefx.commons --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls --module-path ${project.build.directory}/modules --module ${moduleName}/${mainClass} /Users/selfemp/Desktop/enwik9.txt</exec.args>
+                <exec.args>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address} --add-opens=javafx.graphics/javafx.css=de.jensd.fx.fontawesomefx.commons --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls --module-path ${project.build.directory}/modules --module ${moduleName}/${mainClass}</exec.args>
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
             </properties>
@@ -48,9 +48,6 @@
             <goals>
                 <goal>client:build</goal>
             </goals>
-            <activatedProfiles>
-                <activatedProfile>package</activatedProfile>
-            </activatedProfiles>
         </action>
         <action>
             <actionName>CUSTOM-graalvm package</actionName>

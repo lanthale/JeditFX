@@ -288,29 +288,29 @@ public class JEditFXController implements Initializable {
     public void exit() {
         if (textarea.getText().isEmpty()) {
             executor.shutdownNow();
-            Platform.exit();
-            return;
-        }
+            System.exit(0);
+        } else {
 
-        Alert alert = new Alert(
-                Alert.AlertType.CONFIRMATION,
-                "Exit without saving?",
-                ButtonType.YES,
-                ButtonType.NO,
-                ButtonType.CANCEL
-        );
+            Alert alert = new Alert(
+                    Alert.AlertType.CONFIRMATION,
+                    "Exit without saving?",
+                    ButtonType.YES,
+                    ButtonType.NO,
+                    ButtonType.CANCEL
+            );
 
-        alert.setTitle("Confirm");
-        alert.showAndWait();
+            alert.setTitle("Confirm");
+            alert.showAndWait();
 
-        if (alert.getResult() == ButtonType.YES) {
-            executor.shutdown();
-            Platform.exit();
-        }
-        if (alert.getResult() == ButtonType.NO) {
-            saveFileAction(null);
-            executor.shutdown();
-            Platform.exit();
+            if (alert.getResult() == ButtonType.YES) {
+                executor.shutdown();
+                System.exit(0);
+            }
+            if (alert.getResult() == ButtonType.NO) {
+                saveFileAction(null);
+                executor.shutdown();
+                System.exit(0);
+            }
         }
     }
 
@@ -373,7 +373,7 @@ public class JEditFXController implements Initializable {
                 progressBar.setProgress(0);
             });
         }
-        try (BufferedReader reader = Files.newBufferedReader(file.toPath(), Charset.forName(encoding))) {
+        try ( BufferedReader reader = Files.newBufferedReader(file.toPath(), Charset.forName(encoding))) {
             reader.skip(start);
             int count = 0;
             while ((actualReadLine = reader.readLine()) != null) {
@@ -417,7 +417,7 @@ public class JEditFXController implements Initializable {
     private void createFileMap() throws IOException {
         String actualReadLine;
 
-        try (BufferedReader reader = Files.newBufferedReader(file.toPath(), Charset.forName(encoding))) {
+        try ( BufferedReader reader = Files.newBufferedReader(file.toPath(), Charset.forName(encoding))) {
             int count = 1;
             linesToRead = reader.lines().count();
             Platform.runLater(() -> {

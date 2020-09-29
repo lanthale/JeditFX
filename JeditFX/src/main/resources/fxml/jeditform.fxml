@@ -39,7 +39,6 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -57,22 +56,10 @@
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
-                        <MenuItem mnemonicParsing="false" onAction="#openFileAction" text="Open">
-                           <accelerator>
-                              <KeyCodeCombination alt="UP" code="O" control="UP" meta="ANY" shift="UP" shortcut="UP" />
-                           </accelerator></MenuItem>
-                        <MenuItem mnemonicParsing="false" onAction="#saveFileAction" text="Save">
-                           <accelerator>
-                              <KeyCodeCombination alt="UP" code="S" control="UP" meta="ANY" shift="UP" shortcut="UP" />
-                           </accelerator></MenuItem>
-                        <MenuItem mnemonicParsing="false" onAction="#closeFileAction" text="Close">
-                           <accelerator>
-                              <KeyCodeCombination alt="UP" code="C" control="UP" meta="ANY" shift="UP" shortcut="UP" />
-                           </accelerator></MenuItem>
-                    <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit">
-                           <accelerator>
-                              <KeyCodeCombination alt="UP" code="X" control="UP" meta="ANY" shift="UP" shortcut="UP" />
-                           </accelerator></MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#openFileAction" text="Open" />
+                        <MenuItem mnemonicParsing="false" onAction="#saveFileAction" text="Save" />
+                        <MenuItem mnemonicParsing="false" onAction="#closeFileAction" text="Close" />
+                    <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">

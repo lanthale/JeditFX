@@ -73,21 +73,23 @@
                     <version>3.8.1</version>
                 </plugin>
                 
-                <!-- <plugin>
+                <plugin>
                     <groupId>com.gluonhq</groupId>
                     <artifactId>client-maven-plugin</artifactId>
                     <version>0.1.32</version>
                     <configuration>
-                        <target>ios</target> 
+                        <target>host</target>    
                         <graalvmHome>/Library/Java/graalvm-ce-java11-20.2.0/Contents/Home</graalvmHome>
-                        <reflectionList>
-                            <list>javafx.fxml.FXMLLoader</list>
+                        <reflectionList>                            
+                            <list>at.itarchitects.jeditfx.App</list>                            
+                            <list>at.itarchitects.jeditfx.UtilityTools</list>                            
                             <list>at.itarchitects.jeditfx.JEditFXController</list>                            
                             <list>de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView</list>                            
                             <list>org.fxmisc.flowless.VirtualizedScrollPane</list>
                             <list>org.fxmisc.richtext.CodeArea</list>
                             <list>org.fxmisc.richtext.LineNumberFactory</list>
                             <list>org.mozilla.universalchardet.UniversalDetector</list>
+                            <list>javafx.fxml.FXMLLoader</list>
                             <list>javafx.geometry.Insets</list>
                             <list>javafx.scene.control.Button</list>
                             <list>javafx.scene.control.Label</list>
@@ -111,10 +113,14 @@
                             <list>javafx.scene.layout.StackPane</list>
                             <list>javafx.scene.layout.VBox</list>
                             <list>javafx.scene.text.Font</list>
+                            <list>javafx.scene.control.OverrunStyle</list>
+                            <list>javafx.geometry.NodeOrientation</list>
+                            <list>javafx.geometry.Orientation</list>
+                            <list>javafx.scene.control.Separator</list>                                
                         </reflectionList>
                         <mainClass>${mainClass}</mainClass>
                     </configuration>
-                </plugin>-->
+                </plugin>
                                
             </plugins>
         </pluginManagement>
