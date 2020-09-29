@@ -9,6 +9,17 @@ The name JeditFX is derived from Jedit but is far from being Jedit with a nicer 
 
 Commented out in the maven file is also the compiling with GraalVM. Basically functional but there are issues with the keyboard shortcuts and therefore I decided to go with JPackage option. To build you need JDK14 because of the jpackage and the faster startup time.
 
-This is my first github project and I do not know how I can do the build of the project automatically. Maybe someone else can pick this up. Just create an issue and I can give you the right to write to the repo.
-
 Let me know if I violete against any copyright things from other projects and I will remove them.
+
+Was is working:
+- Opening of very large files without loading the file into the memory. Memory consumtion stay's at 200 mb independent of the file size
+- Save/load file 
+- Encoding detection of the file
+- Search/highlight text
+
+
+Open Topics:
+- Support scrolling in a very large text file including search/find without loading the whole file
+- Syntax highlighting of various languages are missing
+- Auto intend is missing
+- Format of text accoring to the language features used in the file
