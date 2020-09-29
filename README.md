@@ -11,7 +11,7 @@ Commented out in the maven file is also the compiling with GraalVM. Basically fu
 
 Let me know if I violete against any copyright things from other projects and I will remove them.
 
-Was is working:
+What is working:
 - Opening of very large files without loading the file into the memory. Memory consumtion stay's at 200 mb independent of the file size
 - Save/load file 
 - Encoding detection of the file
