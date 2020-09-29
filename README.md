@@ -23,3 +23,6 @@ Open Topics:
 - Syntax highlighting of various languages are missing
 - Auto intend is missing
 - Format of text accoring to the language features used in the file
+
+Download of the actual version:
+https://github.com/lanthale/JeditFX/releases/tag/v1.0
