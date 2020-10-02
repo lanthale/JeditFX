@@ -1,5 +1,6 @@
 package at.itarchitects.jeditfx;
 
+import java.awt.Desktop;
 import java.io.File;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,9 +10,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
-import javafx.scene.input.Dragboard;
 import javafx.stage.WindowEvent;
 
 /**
@@ -35,6 +40,23 @@ public class App extends Application {
     private static final String NODE_NAME = "JeditFX";
     private static final String BUNDLE = "Bundle";
     private FXMLLoader fxmlLoader;
+    private static File fileToLoad;
+    private static JEditFXController controller;
+
+    /**
+     * Listen for OPEN_FILE events while the application is running.
+     */
+    static {
+        if (java.awt.Desktop.getDesktop().isSupported(Desktop.Action.APP_OPEN_FILE)) {
+            Desktop.getDesktop().setOpenFileHandler(event -> {
+                fileToLoad = event.getFiles().get(0);                
+                Platform.runLater(() -> {
+                    controller.setFile(event.getFiles().get(0));
+                    controller.openFileAction(null);
+                });
+            });
+        }
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -60,7 +82,7 @@ public class App extends Application {
             preferences.putDouble(WINDOW_WIDTH, stage.getWidth());
             preferences.putDouble(WINDOW_HEIGHT, stage.getHeight());
             preferences.putBoolean(WINDOW_MAXIMIZED, stage.isMaximized());
-            JEditFXController controller = fxmlLoader.getController();
+            controller = fxmlLoader.getController();
             preferences.putBoolean("WRAPTEXT", controller.getWrapText());
             preferences.putInt("FONTSIZE", controller.getFontSize());
             controller.getExecutor().shutdownNow();
@@ -71,17 +93,9 @@ public class App extends Application {
         scene = new Scene(root, 640, 480);
         scene.getStylesheets().add(getClass().getResource("/fxml/style.css").toExternalForm());
 
-        JEditFXController controller = fxmlLoader.getController();
+        controller = fxmlLoader.getController();
         controller.setWrapText(pref.getBoolean("WRAPTEXT", false));
-        controller.setFontSize(pref.getInt("FONTSIZE", 11));
-
-        scene.setOnDragDropped((t) -> {
-            Dragboard db = t.getDragboard();
-            if (db.hasFiles() == true) {
-                controller.setFile(db.getFiles().get(0));
-                controller.openFileAction(null);
-            }
-        });
+        controller.setFontSize(pref.getInt("FONTSIZE", 11));        
 
         stage.setScene(scene);
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/img/icon_256x256.png")));
@@ -97,6 +111,10 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public static File getFileToLoad() {
+        return fileToLoad;
     }
 
 }

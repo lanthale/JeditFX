@@ -277,7 +277,7 @@ public class JEditFXController implements Initializable {
                 executor.submit(task);
             }
         });
-        progressInfo.setVisible(false);
+        progressInfo.setVisible(false);        
     }
 
     public void init(Stage myStage) {
@@ -316,7 +316,7 @@ public class JEditFXController implements Initializable {
 
     @FXML
     public void openFileAction(ActionEvent event) {
-        fileChooser.setTitle("Open File");
+        fileChooser.setTitle("Open File");        
         if (file == null) {
             file = fileChooser.showOpenDialog(stage);
         }

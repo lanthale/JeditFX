@@ -78,7 +78,7 @@
                     <artifactId>client-maven-plugin</artifactId>
                     <version>0.1.32</version>
                     <configuration>
-                        <target>host</target>    
+                        <target>ios</target>    
                         <graalvmHome>/Library/Java/graalvm-ce-java11-20.2.0/Contents/Home</graalvmHome>
                         <reflectionList>                            
                             <list>at.itarchitects.jeditfx.App</list>                            
@@ -392,7 +392,7 @@
                 </os>
             </activation>
             <properties>
-                <bundle.type>pkg</bundle.type>
+                <bundle.type>app-image</bundle.type>
                 <exec.executable>${java.home}/bin/java</exec.executable>
                 <icons>${project.build.directory}/../res/icon.icns</icons>
                 <fileicon>${project.build.directory}/../res/fileassociate_osx.properties</fileicon>
@@ -480,8 +480,10 @@
                                         <argument>--dest</argument>
                                         <argument>package</argument>
                                         <argument>--type</argument>
-                                        <argument>pkg</argument>
-                                        <argument>--verbose</argument>                                        
+                                        <argument>${bundle.type}</argument>
+                                        <argument>--verbose</argument>  
+                                        <argument>--resource-dir</argument>                                      
+                                        <argument>${project.build.directory}/../res/osx</argument>
                                         <argument>--icon</argument>
                                         <argument>${icons}</argument>                                        
                                         <argument>--app-version</argument>
