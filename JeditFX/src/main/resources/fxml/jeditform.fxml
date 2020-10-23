@@ -39,6 +39,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -59,7 +60,10 @@
                         <MenuItem mnemonicParsing="false" onAction="#openFileAction" text="Open" />
                         <MenuItem mnemonicParsing="false" onAction="#saveFileAction" text="Save" />
                         <MenuItem mnemonicParsing="false" onAction="#closeFileAction" text="Close" />
-                    <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit" />
+                    <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="Q" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+                           </accelerator></MenuItem>
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">

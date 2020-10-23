@@ -1,6 +1,5 @@
 package at.itarchitects.jeditfx;
 
-import java.awt.Desktop;
 import java.io.File;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,12 +9,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import java.util.prefs.Preferences;
-import javafx.application.Platform;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.WindowEvent;
 
@@ -43,19 +42,34 @@ public class App extends Application {
     private static File fileToLoad;
     private static JEditFXController controller;
 
-    /**
-     * Listen for OPEN_FILE events while the application is running.
-     */
-    static {
-        if (java.awt.Desktop.getDesktop().isSupported(Desktop.Action.APP_OPEN_FILE)) {
-            Desktop.getDesktop().setOpenFileHandler(event -> {
-                fileToLoad = event.getFiles().get(0);                
-                Platform.runLater(() -> {
-                    controller.setFile(event.getFiles().get(0));
-                    controller.openFileAction(null);
-                });
-            });
-        }
+    public App() {
+        com.sun.glass.ui.Application glassApp = com.sun.glass.ui.Application.GetApplication();
+        glassApp.setEventHandler(new com.sun.glass.ui.Application.EventHandler() {
+            @Override
+            public void handleOpenFilesAction(com.sun.glass.ui.Application app, long time, String[] filenames) {
+                super.handleOpenFilesAction(app, time, filenames);
+                Logger.getLogger("at.itarchitects.jeditfx").log(Level.SEVERE, "Parameters size " + filenames.length);
+                if (filenames.length > 0) {
+                    if (controller == null) {
+                        Logger.getLogger("at.itarchitects.jeditfx").log(Level.SEVERE, "Getting File to load " + fileToLoad);
+                        fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/jeditform.fxml"));
+                        try {
+                            root = (Parent) fxmlLoader.load();
+                        } catch (IOException ex) {
+                            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        //scene = new Scene(root, 640, 480);
+                        controller = fxmlLoader.getController();
+                        File targetFile = new File(filenames[0]);
+                        Logger.getLogger("at.itarchitects.jeditfx").log(Level.SEVERE, "Getting File to load " + filenames[0]);
+                        if (targetFile.isDirectory() == false) {
+                            controller.setFile(new File(filenames[0]));
+                            controller.openFileAction(null);
+                        }
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -88,14 +102,22 @@ public class App extends Application {
             controller.getExecutor().shutdownNow();
         });
 
-        fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/jeditform.fxml"));
-        root = (Parent) fxmlLoader.load();
-        scene = new Scene(root, 640, 480);
+        if (fxmlLoader == null) {
+            fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/jeditform.fxml"));
+        }
+        if (root == null) {
+            root = (Parent) fxmlLoader.load();
+        }
+        if (scene == null) {
+            scene = new Scene(root, 640, 480);
+        }
         scene.getStylesheets().add(getClass().getResource("/fxml/style.css").toExternalForm());
 
-        controller = fxmlLoader.getController();
+        if (controller == null) {
+            controller = fxmlLoader.getController();
+        }
         controller.setWrapText(pref.getBoolean("WRAPTEXT", false));
-        controller.setFontSize(pref.getInt("FONTSIZE", 11));        
+        controller.setFontSize(pref.getInt("FONTSIZE", 11));
 
         stage.setScene(scene);
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/img/icon_256x256.png")));
@@ -104,17 +126,67 @@ public class App extends Application {
         Parameters params = getParameters();
         List<String> list = params.getRaw();
         if (!list.isEmpty()) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, "Loading from cmd as param");
             controller.setFile(new File(params.getRaw().get(0)));
             controller.openFileAction(null);
         }
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
     public static File getFileToLoad() {
         return fileToLoad;
+    }
+
+    /**
+     * Returns the application data path, path is returned with ending /
+     *
+     * @return
+     */
+    public static String getAppData() {
+        String path = "";
+        String OS = System.getProperty("os.name").toUpperCase();
+        if (OS.contains("WIN")) {
+            path = System.getenv("APPDATA");
+        } else if (OS.contains("MAC")) {
+            path = System.getProperty("user.home") + "/Library/Application Support";
+        } else if (OS.contains("NUX")) {
+            path = System.getProperty("user.home");
+        } else {
+            path = System.getProperty("user.dir");
+        }
+
+        path = path + File.separator + "JEditFX";
+        if (new File(path).exists() == false) {
+            new File(path).mkdirs();
+        }
+
+        return path;
+    }
+
+    public static void main(String[] args) {
+        /*Platform.runLater(() -> {
+            if (java.awt.Desktop.getDesktop().isSupported(Desktop.Action.APP_OPEN_FILE)) {
+                Desktop.getDesktop().setOpenFileHandler(event -> {
+                    fileToLoad = event.getFiles().get(0);
+                    Logger.getLogger("at.itarchitects.jeditfx").log(Level.SEVERE, "Getting File to load " + fileToLoad);
+                    controller.setFile(event.getFiles().get(0));
+                    controller.openFileAction(null);
+                });
+            }
+        });*/
+        try {
+            String appData = getAppData();
+            Logger logger = Logger.getLogger("at.itarchitects.jeditfx");
+            File logFile = new File(appData + File.separator + "jeditfx.log");
+            Handler handler = new FileHandler(logFile.getAbsolutePath(), 50000, 1, false);
+            logger.addHandler(handler);
+            logger.setLevel(Level.ALL);
+            handler.setFormatter(new SimpleFormatter());
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, "Starting app");
+            launch(args);
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, "finished");
+        } catch (IOException | SecurityException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

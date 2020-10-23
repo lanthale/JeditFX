@@ -21,6 +21,8 @@ import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.application.Platform;
@@ -131,6 +133,7 @@ public class JEditFXController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Logger.getLogger(JEditFXController.class.getName()).log(Level.SEVERE, "Init Controller");
         executor = Executors.newSingleThreadExecutor();
         menuBar.useSystemMenuBarProperty().set(true);
         mapFileLines = new HashMap<>();
@@ -277,7 +280,8 @@ public class JEditFXController implements Initializable {
                 executor.submit(task);
             }
         });
-        progressInfo.setVisible(false);        
+        progressInfo.setVisible(false);      
+        Logger.getLogger(JEditFXController.class.getName()).log(Level.SEVERE, "Init Controller finished");
     }
 
     public void init(Stage myStage) {
@@ -316,8 +320,11 @@ public class JEditFXController implements Initializable {
 
     @FXML
     public void openFileAction(ActionEvent event) {
+        Logger.getLogger(JEditFXController.class.getName()).log(Level.SEVERE, "OpenFileAction");
         fileChooser.setTitle("Open File");        
-        if (file == null) {
+        System.out.println("file was: "+file);
+        System.out.println("actionevent was: "+event);
+        if (file == null) {            
             file = fileChooser.showOpenDialog(stage);
         }
         progressInfo.setVisible(true);

@@ -392,10 +392,14 @@
                 </os>
             </activation>
             <properties>
-                <bundle.type>app-image</bundle.type>
+                <bundle.type>pkg</bundle.type>
                 <exec.executable>${java.home}/bin/java</exec.executable>
                 <icons>${project.build.directory}/../res/icon.icns</icons>
                 <fileicon>${project.build.directory}/../res/fileassociate_osx.properties</fileicon>
+                <param1></param1>                
+                <param2></param2>
+                <param3></param3>
+                <param4></param4>
             </properties>
         </profile>
         <profile>
@@ -411,6 +415,10 @@
                 <exec.executable>${java.home}\bin\java</exec.executable> 
                 <icons>${project.build.directory}\..\res\icon.ico</icons>               
                 <fileicon>${project.build.directory}\..\res\fileassociate_win.properties</fileicon>
+                <param1>--win-menu</param1>
+                <param2>--win-shortcut</param2>
+                <param3></param3>
+                <param4></param4>
             </properties>
         </profile>        
         <profile>
@@ -494,6 +502,8 @@
                                         <argument>JeditFX</argument>
                                         <argument>--runtime-image</argument>
                                         <argument>${project.build.directory}/jlink-image</argument>
+                                        <argument>--java-options</argument>
+                                        <argument>--add-exports=javafx.graphics/com.sun.glass.ui=JeditFX</argument>
                                         <argument>--java-options</argument>
                                         <argument>--add-opens=javafx.graphics/javafx.css=de.jensd.fx.fontawesomefx.commons</argument> 
                                         <argument>--java-options</argument>    
