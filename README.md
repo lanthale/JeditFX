@@ -25,4 +25,4 @@ Open Topics:
 - Format of text accoring to the language features used in the file
 
 Download of the actual version:
-https://github.com/lanthale/JeditFX/releases/tag/v1.0
+https://github.com/lanthale/JeditFX/releases/tag/v1.0.1
