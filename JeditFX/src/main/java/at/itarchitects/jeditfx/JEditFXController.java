@@ -308,6 +308,7 @@ public class JEditFXController implements Initializable {
 
             if (alert.getResult() == ButtonType.YES) {
                 executor.shutdown();
+                App.saveSettings((Stage) pane.getScene().getWindow(), this);
                 System.exit(0);
             }
             if (alert.getResult() == ButtonType.NO) {

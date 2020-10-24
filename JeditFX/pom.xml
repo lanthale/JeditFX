@@ -411,7 +411,7 @@
                 </os>
             </activation>
             <properties>
-                <bundle.type>exe</bundle.type>
+                <bundle.type>msi</bundle.type>
                 <exec.executable>${java.home}\bin\java</exec.executable> 
                 <icons>${project.build.directory}\..\res\icon.ico</icons>               
                 <fileicon>${project.build.directory}\..\res\fileassociate_win.properties</fileicon>

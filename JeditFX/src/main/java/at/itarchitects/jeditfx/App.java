@@ -14,6 +14,7 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 import javafx.scene.image.Image;
 import javafx.stage.WindowEvent;
@@ -36,8 +37,7 @@ public class App extends Application {
     private static final double DEFAULT_WIDTH = 700;
     private static final double DEFAULT_HEIGHT = 500;
     private static final boolean DEFAULT_MAXIMIZED = false;
-    private static final String NODE_NAME = "JeditFX";
-    private static final String BUNDLE = "Bundle";
+    private static final String NODE_NAME = "JeditFX";    
     private FXMLLoader fxmlLoader;
     private static File fileToLoad;
     private static JEditFXController controller;
@@ -90,16 +90,7 @@ public class App extends Application {
         stage.setMaximized(maximized);
 
         stage.setOnCloseRequest((final WindowEvent event) -> {
-            Preferences preferences = Preferences.userRoot().node(NODE_NAME);
-            preferences.putDouble(WINDOW_POSITION_X, stage.getX());
-            preferences.putDouble(WINDOW_POSITION_Y, stage.getY());
-            preferences.putDouble(WINDOW_WIDTH, stage.getWidth());
-            preferences.putDouble(WINDOW_HEIGHT, stage.getHeight());
-            preferences.putBoolean(WINDOW_MAXIMIZED, stage.isMaximized());
-            controller = fxmlLoader.getController();
-            preferences.putBoolean("WRAPTEXT", controller.getWrapText());
-            preferences.putInt("FONTSIZE", controller.getFontSize());
-            controller.getExecutor().shutdownNow();
+            saveSettings(stage, controller);
         });
 
         if (fxmlLoader == null) {
@@ -129,6 +120,23 @@ public class App extends Application {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, "Loading from cmd as param");
             controller.setFile(new File(params.getRaw().get(0)));
             controller.openFileAction(null);
+        }
+    }
+
+    public static void saveSettings(Stage stage, JEditFXController controller) {
+        Preferences preferences = Preferences.userRoot().node(NODE_NAME);
+        preferences.putDouble(WINDOW_POSITION_X, stage.getX());
+        preferences.putDouble(WINDOW_POSITION_Y, stage.getY());
+        preferences.putDouble(WINDOW_WIDTH, stage.getWidth());
+        preferences.putDouble(WINDOW_HEIGHT, stage.getHeight());
+        preferences.putBoolean(WINDOW_MAXIMIZED, stage.isMaximized());        
+        preferences.putBoolean("WRAPTEXT", controller.getWrapText());
+        preferences.putInt("FONTSIZE", controller.getFontSize());
+        controller.getExecutor().shutdownNow();
+        try {
+            preferences.flush();
+        } catch (BackingStoreException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
