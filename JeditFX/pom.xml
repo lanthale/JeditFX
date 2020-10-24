@@ -420,7 +420,26 @@
                 <param3></param3>
                 <param4></param4>
             </properties>
-        </profile>        
+        </profile> 
+        <profile>
+            <id>linux</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <os>
+                    <family>unix</family>
+                    <name>Linux</name>
+                </os>
+            </activation>
+            <properties>
+                <bundle.type>deb</bundle.type>
+                <exec.executable>${java.home}/bin/java</exec.executable>                 
+                <icons>${project.resources[0].directory}/img/icon_256x256.png</icons>                
+                <param1>--linux-shortcut</param1>                
+                <param2></param2> 
+                <param3></param3>
+                <param4></param4>               
+            </properties>
+        </profile>       
         <profile>
             <id>package</id>                        
             <build>
@@ -508,6 +527,11 @@
                                         <argument>--add-opens=javafx.graphics/javafx.css=de.jensd.fx.fontawesomefx.commons</argument> 
                                         <argument>--java-options</argument>    
                                         <argument>--add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls</argument>                                        
+                                        <argument></argument>
+                                        <argument>${param1}</argument>
+                                        <argument>${param2}</argument>
+                                        <argument>${param3}</argument>
+                                        <argument>${param4}</argument>
                                         <argument>--module</argument>
                                         <argument>${moduleName}/${mainClass}</argument>
                                     </arguments>
