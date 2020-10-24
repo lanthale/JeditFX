@@ -292,6 +292,7 @@ public class JEditFXController implements Initializable {
     public void exit() {
         if (textarea.getText().isEmpty()) {
             executor.shutdownNow();
+            App.saveSettings((Stage)mainview.getScene().getWindow(), this);
             System.exit(0);
         } else {
 
@@ -314,6 +315,7 @@ public class JEditFXController implements Initializable {
             if (alert.getResult() == ButtonType.NO) {
                 saveFileAction(null);
                 executor.shutdown();
+                App.saveSettings((Stage) pane.getScene().getWindow(), this);
                 System.exit(0);
             }
         }

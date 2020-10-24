@@ -8,12 +8,12 @@
     <name>JeditFX</name>
     
     <properties>
-        <javafx.version>15</javafx.version>          
+        <javafx.version>15.0.1</javafx.version>          
         <mainClass>at.itarchitects.jeditfx.App</mainClass>
         <moduleName>JeditFX</moduleName>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
         <maven.compiler.source>15</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>       
+        <maven.compiler.target>15</maven.compiler.target>       
     </properties>
     
     <repositories>
@@ -129,7 +129,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <release>11</release>
+                    <release>15</release>
                 </configuration>
             </plugin>
             <plugin>
