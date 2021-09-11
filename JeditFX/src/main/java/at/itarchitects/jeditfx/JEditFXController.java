@@ -1,7 +1,5 @@
 package at.itarchitects.jeditfx;
 
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -62,13 +60,14 @@ import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.Paragraph;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
+import org.kordamp.ikonli.javafx.FontIcon;
 import org.mozilla.universalchardet.UniversalDetector;
 
 public class JEditFXController implements Initializable {
 
     private final FileChooser fileChooser = new FileChooser();
-    private FontAwesomeIconView iconview;
-    private FontAwesomeIconView iconviewDelete;
+    private FontIcon iconview;
+    private FontIcon iconviewDelete;
     private UtilityTools util;
     private int fontSize;
     private HashMap<Integer, Integer> mapFileLines;
@@ -167,8 +166,8 @@ public class JEditFXController implements Initializable {
             }
         });
         panev = new VirtualizedScrollPane<>(textarea);
-        iconview = new FontAwesomeIconView(FontAwesomeIcon.ARROW_CIRCLE_LEFT, "12pt");
-        iconviewDelete = new FontAwesomeIconView(FontAwesomeIcon.TRASH_ALT, "12pt");
+        iconview = new FontIcon("fa-arrow-circle-left:12");
+        iconviewDelete = new FontIcon("fa-trash:12");
 
         mainview.getChildren().add(panev);
         filePos = 0;
