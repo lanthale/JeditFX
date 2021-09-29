@@ -463,7 +463,7 @@
                                         <argument>--icon</argument>
                                         <argument>${icons}</argument>                                        
                                         <argument>--app-version</argument>
-                                        <argument>1.0.0</argument>
+                                        <argument>${version}</argument>
                                         <argument>--copyright</argument>
                                         <argument>ITArchitects</argument>                                        
                                         <argument>--name</argument>
