@@ -25,7 +25,7 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
@@ -87,37 +87,37 @@
                      <items>
                         <Button mnemonicParsing="false" prefHeight="33.0">
                            <graphic>
-                              <FontAwesomeIconView fill="#6e6d6d" glyphName="FILE" size="24" />
+                              <FontIcon fill="#6e6d6d" iconLiteral="fa-file" iconSize="24" />
                            </graphic>
                         </Button>
                         <Button fx:id="openButton" mnemonicParsing="false" onAction="#openFileAction" prefHeight="33.0" prefWidth="33.0">
                            <graphic>
-                              <FontAwesomeIconView fill="#6e6d6d" glyphName="FOLDER_OPEN" size="24" />
+                              <FontIcon fill="#6e6d6d" iconLiteral="fa-folder-open" iconSize="24" />
                            </graphic>
                         </Button>
                         <Button fx:id="closeButton" mnemonicParsing="false" onAction="#closeFileAction" prefHeight="33.0" prefWidth="33.0">
                            <graphic>
-                              <FontAwesomeIconView fill="#6e6d6d" glyphName="FOLDER" size="24" />
+                              <FontIcon fill="#6e6d6d" iconLiteral="fa-folder" iconSize="24" />
                            </graphic>
                         </Button>
                         <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveFileAction" prefHeight="33.0" prefWidth="33.0">
                            <graphic>
-                              <FontAwesomeIconView fill="#6e6d6d" glyphName="SAVE" size="24" />
+                              <FontIcon fill="#6e6d6d" iconLiteral="fa-save" iconSize="24" />
                            </graphic>
                         </Button>
                         <HBox alignment="CENTER" prefHeight="33.0" spacing="5.0">
                            <children>
-                              <FontAwesomeIconView fill="#6e6d6d" glyphName="SEARCH" HBox.hgrow="NEVER" />
+                              <FontIcon fill="#6e6d6d" iconLiteral="fa-search" HBox.hgrow="NEVER" />
                               <TextField fx:id="searchField" onKeyPressed="#searchAction" HBox.hgrow="ALWAYS" />
                               <HBox alignment="CENTER">
                                  <children>
                                     <Button mnemonicParsing="false" onAction="#ScrollPrevAction">
                                        <graphic>
-                                          <FontAwesomeIconView fill="#6e6d6d" glyphName="ARROW_CIRCLE_LEFT" />
+                                          <FontIcon fill="#6e6d6d" iconLiteral="fa-arrow-circle-left" />
                                        </graphic></Button>
                                     <Button mnemonicParsing="false" onAction="#ScrollNextAction">
                                        <graphic>
-                                          <FontAwesomeIconView fill="#6e6d6d" glyphName="ARROW_CIRCLE_RIGHT" />
+                                          <FontIcon fill="#6e6d6d" iconLiteral="fa-arrow-circle-right" />
                                        </graphic></Button>
                                  </children>
                               </HBox>
@@ -149,7 +149,7 @@
                               <Font size="14.0" />
                            </font>
                            <graphic>
-                              <FontAwesomeIconView fill="#6e6d6d" glyphName="SEARCH_MINUS" size="16" />
+                              <FontIcon fill="#6e6d6d" iconLiteral="fa-search-minus" iconSize="16" />
                            </graphic>
                         </Button>
                         <Button alignment="CENTER" mnemonicParsing="false" onAction="#FontIncreaseAction" prefHeight="33.0" prefWidth="33.0" textFill="#6e6d6d">
@@ -157,7 +157,7 @@
                               <Font size="14.0" />
                            </font>
                            <graphic>
-                              <FontAwesomeIconView fill="#6e6d6d" glyphName="SEARCH_PLUS" size="16" />
+                              <FontIcon fill="#6e6d6d" iconLiteral="fa-search-plus" iconSize="16" />
                            </graphic>
                         </Button>
                         <CheckBox fx:id="wrapTextCheckBox" mnemonicParsing="false" scaleX="0.8" scaleY="0.8" text="Wrap text" textOverrun="CLIP">

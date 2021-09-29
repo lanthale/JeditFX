@@ -3,29 +3,19 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>at.ITArchitects</groupId>
     <artifactId>JeditFX</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     
     <name>JeditFX</name>
     
     <properties>
-        <javafx.version>15.0.1</javafx.version>          
+        <javafx.version>17.0.0.1</javafx.version>          
         <mainClass>at.itarchitects.jeditfx.App</mainClass>
         <moduleName>JeditFX</moduleName>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
-        <maven.compiler.source>15</maven.compiler.source>
-        <maven.compiler.target>15</maven.compiler.target>       
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>       
     </properties>
-    
-    <repositories>
-        <repository>
-            <id>bintray-jerady-maven</id>
-            <name>bintray</name>
-            <url>https://dl.bintray.com/jerady/maven</url>            
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>                
-    </repositories>
+                     
     
     <pluginRepositories>
         <pluginRepository>
@@ -60,12 +50,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>3.1.1</version>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>exec-maven-plugin</artifactId>
-                    <version>1.6.0</version>
+                    <version>3.0.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -75,8 +65,8 @@
                 
                 <plugin>
                     <groupId>com.gluonhq</groupId>
-                    <artifactId>client-maven-plugin</artifactId>
-                    <version>0.1.32</version>
+                    <artifactId>gluonfx-maven-plugin</artifactId>
+                    <version>1.0.6</version>
                     <configuration>
                         <target>ios</target>    
                         <graalvmHome>/Library/Java/graalvm-ce-java11-20.2.0/Contents/Home</graalvmHome>
@@ -88,35 +78,7 @@
                             <list>org.fxmisc.flowless.VirtualizedScrollPane</list>
                             <list>org.fxmisc.richtext.CodeArea</list>
                             <list>org.fxmisc.richtext.LineNumberFactory</list>
-                            <list>org.mozilla.universalchardet.UniversalDetector</list>
-                            <list>javafx.fxml.FXMLLoader</list>
-                            <list>javafx.geometry.Insets</list>
-                            <list>javafx.scene.control.Button</list>
-                            <list>javafx.scene.control.Label</list>
-                            <list>javafx.scene.control.Menu</list>
-                            <list>javafx.scene.control.MenuBar</list>
-                            <list>javafx.scene.control.MenuItem</list>
-                            <list>javafx.scene.control.ProgressBar</list>
-                            <list>javafx.scene.control.Tab</list>
-                            <list>javafx.scene.control.TabPane</list>                            
-                            <list>javafx.scene.input.KeyCharacterCombination</list>
-                            <list>javafx.scene.input.KeyCodeCombination</list>
-                            <list>javafx.scene.input.KeyCombination</list>                            
-                            <list>javafx.scene.input.KeyEvent</list>
-                            <list>javafx.scene.input.Mnemonic</list>
-                            <list>javafx.geometry.HPos</list>
-                            <list>javafx.scene.layout.AnchorPane</list>
-                            <list>javafx.scene.layout.ColumnConstraints</list>
-                            <list>javafx.scene.layout.GridPane</list>
-                            <list>javafx.scene.layout.HBox</list>
-                            <list>javafx.scene.layout.RowConstraints</list>
-                            <list>javafx.scene.layout.StackPane</list>
-                            <list>javafx.scene.layout.VBox</list>
-                            <list>javafx.scene.text.Font</list>
-                            <list>javafx.scene.control.OverrunStyle</list>
-                            <list>javafx.geometry.NodeOrientation</list>
-                            <list>javafx.geometry.Orientation</list>
-                            <list>javafx.scene.control.Separator</list>                                
+                            <list>org.mozilla.universalchardet.UniversalDetector</list>                                                           
                         </reflectionList>
                         <mainClass>${mainClass}</mainClass>
                     </configuration>
@@ -129,7 +91,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <release>15</release>
+                    <release>17</release>
                 </configuration>
             </plugin>
             <plugin>
@@ -178,7 +140,7 @@
                         </goals>
                         <configuration>
                             <overwriteExistingFiles>true</overwriteExistingFiles>
-                            <jvmVersion>14</jvmVersion>
+                            <jvmVersion>16</jvmVersion>
                             <modules>  
                                 <module>
                                     <artifact>
@@ -270,7 +232,7 @@
                                         exports org.fxmisc.wellbehaved.event;                                        
                                         }
                                     </moduleInfoSource>
-                                </module> 
+                                </module>
                                 <module>
                                     <artifact>
                                         <groupId>com.github.albfernandez</groupId>
@@ -282,7 +244,7 @@
                                         exports org.mozilla.universalchardet;
                                         }
                                     </moduleInfoSource>
-                                </module>                                                              
+                                </module>                                                            
                                 
                             </modules>                                                                              
                             <module>                                                                   
@@ -290,11 +252,11 @@
                                     <name>JeditFX</name>  
                                     <opens>at.itarchitects.jeditfx;</opens>                                    
                                 </moduleInfo>                                  
-                            </module>   
+                            </module>  
                             <jdepsExtraArgs>
                                 <arg>--multi-release</arg>
-                                <arg>11</arg>
-                            </jdepsExtraArgs>                       
+                                <arg>16</arg>
+                            </jdepsExtraArgs>
                         </configuration>
                     </execution>
                 </executions>
@@ -306,7 +268,7 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-base</artifactId>
-            <version>${javafx.version}</version>
+            <version>${javafx.version}</version>            
         </dependency>        
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -322,8 +284,7 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>${javafx.version}</version>
-        </dependency> 
-                                            
+        </dependency>                                             
         <dependency>
             <groupId>org.controlsfx</groupId>
             <artifactId>controlsfx</artifactId>
@@ -334,40 +295,27 @@
                     <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>           
-        </dependency>  
-        <dependency>
-            <groupId>de.jensd</groupId>
-            <artifactId>fontawesomefx-commons</artifactId>
-            <version>11.0</version> 
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>           
         </dependency>
         <dependency>
-            <groupId>de.jensd</groupId>
-            <artifactId>fontawesomefx-controls</artifactId>
-            <version>11.0</version>   
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>         
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-core</artifactId>
+            <version>12.2.0</version>            
+        </dependency>        
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-javafx</artifactId>
+            <version>12.2.0</version>            
+        </dependency>        
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-themify-pack</artifactId>
+            <version>12.2.0</version>            
         </dependency>
         <dependency>
-            <groupId>de.jensd</groupId>
-            <artifactId>fontawesomefx-fontawesome</artifactId>
-            <version>4.7.0-11</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>            
-        </dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-fontawesome-pack</artifactId>
+            <version>12.2.0</version>
+        </dependency>        
         <dependency>
             <groupId>org.fxmisc.richtext</groupId>
             <artifactId>richtextfx</artifactId>
@@ -471,9 +419,10 @@
                                         <module>javafx.controls</module>
                                         <module>javafx.graphics</module>                                        
                                         <module>org.controlsfx.controls</module>
-                                        <module>de.jensd.fx.fontawesomefx.commons</module>
-                                        <module>de.jensd.fx.fontawesomefx.controls</module>
-                                        <module>de.jensd.fx.fontawesomefx.fontawesome</module>                                        
+                                        <module>org.kordamp.ikonli.core</module>
+                                        <module>org.kordamp.ikonli.javafx</module>    
+                                        <module>org.kordamp.ikonli.themify</module> 
+                                        <module>org.kordamp.ikonli.fontawesome</module>   
                                         <module>jdk.charsets</module>  
                                         <module>org.fxmisc.richtext</module>
                                         <module>org.fxmisc.flowless</module>
@@ -527,6 +476,8 @@
                                         <argument>--add-opens=javafx.graphics/javafx.css=de.jensd.fx.fontawesomefx.commons</argument> 
                                         <argument>--java-options</argument>    
                                         <argument>--add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls</argument>                                        
+                                        <argument>--java-options</argument>
+                                        <argument>-XX:+UseShenandoahGC</argument>
                                         <argument></argument>
                                         <argument>${param1}</argument>
                                         <argument>${param2}</argument>
