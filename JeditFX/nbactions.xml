@@ -6,13 +6,10 @@
                 <packaging>jar</packaging>
             </packagings>
             <goals>
-                <goal>process-classes</goal>
-                <goal>org.codehaus.mojo:exec-maven-plugin:1.6.0:exec</goal>
+                <goal>clean</goal>
+                <goal>javafx:run</goal>
+                
             </goals>
-            <properties>
-                <exec.args>-XX:+UseShenandoahGC --add-exports=javafx.graphics/com.sun.glass.ui=JeditFX --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls --module-path ${project.build.directory}/modules --module ${moduleName}/${mainClass}</exec.args>
-                <exec.executable>java</exec.executable>
-            </properties>
         </action>
         <action>
             <actionName>debug</actionName>
@@ -20,12 +17,12 @@
                 <packaging>jar</packaging>
             </packagings>
             <goals>
-                <goal>process-classes</goal>
-                <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
+                <goal>clean</goal>
+                <goal>javafx:run@ide-debug</goal>
             </goals>
             <properties>
-                <exec.args>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address} -XX:+UseShenandoahGC --add-exports=javafx.graphics/com.sun.glass.ui=JeditFX --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls --module-path ${project.build.directory}/modules --module ${moduleName}/${mainClass}</exec.args>
-                <exec.executable>java</exec.executable>
+                
+                
                 <jpda.listen>true</jpda.listen>
             </properties>
         </action>
@@ -58,6 +55,16 @@
             <activatedProfiles>
                 <activatedProfile>package</activatedProfile>
             </activatedProfiles>
+        </action>
+        <action>
+            <actionName>profile</actionName>
+            <packagings>
+                <packaging>jar</packaging>
+            </packagings>
+            <goals>
+                <goal>clearn</goal>
+                <goal>javafx:run@ide-profile</goal>
+            </goals>
         </action>
         
     </actions>

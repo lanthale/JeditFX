@@ -141,7 +141,8 @@ public class JEditFXController implements Initializable {
         searchQuantityLabel.setVisible(false);
         vboxSearchOptions.setAlignment(Pos.CENTER);
         vboxSearchOptions.getChildren().remove(searchQuantityLabel);
-        maxLineReadAhead = 1000;
+        //maxLineReadAhead = 1000;
+        maxLineReadAhead = 10000000;
         lastDeletedLineQTY = 0;
         startViewFileLine = 1;
         endViewFileLine = 1;
@@ -228,7 +229,7 @@ public class JEditFXController implements Initializable {
                 task.setOnFailed((WorkerStateEvent t) -> {
                     util.showError("Error reading additional lines from file " + file.getAbsolutePath(), new Exception(t.getSource().getException()));
                 });
-                executor.submit(task);
+                //executor.submit(task);
             }
         });
         progressBar.progressProperty().bindBidirectional(doubleProgress);
@@ -348,6 +349,7 @@ public class JEditFXController implements Initializable {
                 return true;
             }
         };
+        progressBar.progressProperty().bind(task.progressProperty());
         task.setOnSucceeded((WorkerStateEvent t) -> {
             if (file != null) {
                 isChanged.setValue(Boolean.FALSE);
@@ -363,7 +365,7 @@ public class JEditFXController implements Initializable {
     }
 
     private void readText(int linesToRead, long start, String insertPos) throws IOException {
-        String actualReadLine;
+        String actualReadLine;        
         if (start == 0) {
             encoding = UniversalDetector.detectCharset(file);
             if (encoding == null) {
@@ -381,7 +383,7 @@ public class JEditFXController implements Initializable {
             Platform.runLater(() -> {
                 progressBar.setProgress(0);
             });
-        }
+        }        
         try ( BufferedReader reader = Files.newBufferedReader(file.toPath(), Charset.forName(encoding))) {
             reader.skip(start);
             int count = 0;
@@ -393,13 +395,10 @@ public class JEditFXController implements Initializable {
                     final String txt = actualReadLine;
                     if (linesToRead > 1) {
                         final double pVal = (double) count / linesToRead;
-                        final String pstr = 100 * (double) count / linesToRead + "%";
-                        Platform.runLater(() -> {
-                            doubleProgress.setValue(pVal);
-                            stringProperty.setValue(pstr);
-                        });
+                        final String pstr = 100 * (double) count / linesToRead + "%";                                             
+                        
                     }
-                    try {
+                    /*try {
                         Thread.sleep(5);
                     } catch (InterruptedException ex) {
                         return;
@@ -415,7 +414,7 @@ public class JEditFXController implements Initializable {
                             startViewFileLine = startViewFileLine - 1;
                             textarea.insertText(0, txt + "\n");
                         }
-                    });
+                    });*/
                 }
                 count = count + 1;
             }
