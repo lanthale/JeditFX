@@ -14,7 +14,7 @@
         <main-class>at.itarchitects.jeditfx.App</main-class>        
         <app.name>JeditFX</app.name>        
         <maven.build.timestamp.format>yy.ww.WWkkmm</maven.build.timestamp.format>
-        <app.version>${maven.build.timestamp}</app.version>        
+        <app.version>${version}</app.version>        
         <jvm.modules>javafx.media,javafx.controls,javafx.fxml,javafx.graphics,java.logging</jvm.modules>        
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
