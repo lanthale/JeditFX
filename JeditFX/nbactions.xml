@@ -31,13 +31,10 @@
             <displayName>create-native-image</displayName>
             <goals>
                 <goal>clean</goal>
-                <goal>compile</goal>
-                <goal>package</goal>
+                <goal>install</goal>
+                
                 
             </goals>
-            <activatedProfiles>
-                <activatedProfile>package</activatedProfile>
-            </activatedProfiles>
         </action>
         <action>
             <actionName>CUSTOM-graalvm</actionName>
