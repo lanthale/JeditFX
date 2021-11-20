@@ -10,4 +10,5 @@
 --type pkg
 --resource-dir ${project.basedir}/res/osx
 --java-options -XX:+UseZGC
---java-options --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls
+--java-options --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED 
+--java-options --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls

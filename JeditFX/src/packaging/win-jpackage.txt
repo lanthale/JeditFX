@@ -15,4 +15,5 @@
 --description "${project.description}"
 --copyright "(C) ${windows.vendor}"
 --java-options -XX:+UseZGC
---java-options --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls
+--java-options --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED 
+--java-options --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls
