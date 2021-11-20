@@ -32,7 +32,7 @@
         <dependency>
             <groupId>org.controlsfx</groupId>
             <artifactId>controlsfx</artifactId>
-            <version>11.0.1</version>                       
+            <version>11.0.3</version>                       
         </dependency>
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
@@ -57,12 +57,12 @@
         <dependency>
             <groupId>org.fxmisc.richtext</groupId>
             <artifactId>richtextfx</artifactId>
-            <version>0.10.5</version>
+            <version>0.10.7</version>
         </dependency> 
         <dependency>
             <groupId>com.github.albfernandez</groupId>
             <artifactId>juniversalchardet</artifactId>
-            <version>2.3.1</version>
+            <version>2.3.2</version>
         </dependency>
 
         <!-- This downloads the platform specific JavaFX libraries used by the project. -->
@@ -199,9 +199,7 @@
                 <groupId>io.github.wiverson</groupId>
                 <artifactId>jtoolprovider-plugin</artifactId>
                 <version>1.0.34</version>
-                <executions>
-                    <!-- This command runs jlink, generating a custom JVM by combining the JavaFX modules bundled in
-                    this project with the JDK modules. -->
+                <executions>                    
                     <execution>
                         <id>jlink</id>
                         <phase>package</phase>
@@ -223,14 +221,7 @@
                                 <arg>--compress=2</arg>
                             </args>
                         </configuration>
-                    </execution>
-                    <!-- The command that actually generates the installer. The options for each platform
-                    are found the /src/packaging directory. These files are copied into the target directory by
-                    the Maven resources plugin, which does the filtering to replace the original values with
-                    the actual Maven properties.
-
-                    https://github.com/wiverson/jtoolprovider-plugin/blob/main/java-tool-doc.md
-                    -->
+                    </execution>                  
                     <execution>
                         <id>jpackage</id>
                         <phase>install</phase>
