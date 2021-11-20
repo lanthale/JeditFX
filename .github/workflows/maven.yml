@@ -41,7 +41,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        pattern: JeditFX/target/package/*.pkg
+        pattern: JeditFX/target/*.pkg
         release-url: ${{ steps.get_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
         github-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -78,7 +78,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        pattern: JeditFX\target\package\*.msi
+        pattern: JeditFX\target\*.msi
         release-url: ${{ steps.get_release.outputs.upload_url }}
         github-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -115,6 +115,6 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        pattern: JeditFX/target/package/*.deb
+        pattern: JeditFX/target/*.deb
         release-url: ${{ steps.get_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
         github-token: ${{ secrets.GITHUB_TOKEN }}
