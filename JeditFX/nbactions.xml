@@ -35,6 +35,9 @@
                 
                 
             </goals>
+            <activatedProfiles>
+                <activatedProfile>package</activatedProfile>
+            </activatedProfiles>
         </action>
         <action>
             <actionName>CUSTOM-graalvm</actionName>

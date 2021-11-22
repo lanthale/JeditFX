@@ -1,3 +1,8 @@
+.root > *
+{
+    /* add your predefined values here */
+}
+
 .box {
     -fx-spacing: 50;
     -fx-alignment: center;
