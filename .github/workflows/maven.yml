@@ -28,7 +28,7 @@ jobs:
         restore-keys: ${{ runner.os }}-m2
 
     - name: Build with Maven
-      run: mvn clean install -f JeditFX/pom.xml
+      run: mvn clean install -Ppackage -f JeditFX/pom.xml
     - name: Get release
       id: get_release
       uses: bruceadams/get-release@v1.2.2
@@ -65,7 +65,7 @@ jobs:
         restore-keys: ${{ runner.os }}-m2
 
     - name: Build with Maven
-      run: mvn clean install -f JeditFX/pom.xml
+      run: mvn clean install -Ppackage -f JeditFX/pom.xml
     - name: Get release
       id: get_release
       uses: bruceadams/get-release@v1.2.2
@@ -102,7 +102,7 @@ jobs:
         restore-keys: ${{ runner.os }}-m2
 
     - name: Build with Maven
-      run: mvn clean install -f JeditFX/pom.xml
+      run: mvn clean install -Ppackage -f JeditFX/pom.xml
     - name: Get release
       id: get_release
       uses: bruceadams/get-release@v1.2.2
