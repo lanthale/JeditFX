@@ -43,6 +43,10 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelFormat;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyCode;
@@ -61,6 +65,7 @@ import org.fxmisc.richtext.model.Paragraph;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
 import org.kordamp.ikonli.javafx.FontIcon;
+import org.librawfx.LibrawImage;
 import org.mozilla.universalchardet.UniversalDetector;
 
 public class JEditFXController implements Initializable {
@@ -280,7 +285,7 @@ public class JEditFXController implements Initializable {
                 executor.submit(task);
             }
         });
-        progressInfo.setVisible(false);      
+        progressInfo.setVisible(false);
         Logger.getLogger(JEditFXController.class.getName()).log(Level.SEVERE, "Init Controller finished");
     }
 
@@ -292,7 +297,7 @@ public class JEditFXController implements Initializable {
     public void exit() {
         if (textarea.getText().isEmpty()) {
             executor.shutdownNow();
-            App.saveSettings((Stage)mainview.getScene().getWindow(), this);
+            App.saveSettings((Stage) mainview.getScene().getWindow(), this);
             System.exit(0);
         } else {
 
@@ -324,10 +329,10 @@ public class JEditFXController implements Initializable {
     @FXML
     public void openFileAction(ActionEvent event) {
         Logger.getLogger(JEditFXController.class.getName()).log(Level.SEVERE, "OpenFileAction");
-        fileChooser.setTitle("Open File");        
-        System.out.println("file was: "+file);
-        System.out.println("actionevent was: "+event);
-        if (file == null) {            
+        fileChooser.setTitle("Open File");
+        System.out.println("file was: " + file);
+        System.out.println("actionevent was: " + event);
+        if (file == null) {
             file = fileChooser.showOpenDialog(stage);
         }
         progressInfo.setVisible(true);
@@ -351,11 +356,27 @@ public class JEditFXController implements Initializable {
         };
         progressBar.progressProperty().bind(task.progressProperty());
         task.setOnSucceeded((WorkerStateEvent t) -> {
-            if (file != null) {
-                isChanged.setValue(Boolean.FALSE);
-                tabbedPane.getTabs().get(0).setText(tabbedPane.getTabs().get(0).getText().substring(1));
+            try {
+                if (file != null) {
+                    isChanged.setValue(Boolean.FALSE);
+                    tabbedPane.getTabs().get(0).setText(tabbedPane.getTabs().get(0).getText().substring(1));
+                }
+                progressInfo.setVisible(false);
+                File initialFile = file;
+                LibrawImage libraw = new LibrawImage(initialFile.getAbsolutePath());
+                int[] raw = libraw.readPixelData();
+                WritableImage img = new WritableImage(libraw.getImageWidth(), libraw.getImageHeight());
+                PixelWriter pw = img.getPixelWriter();
+                pw.setPixels(0, 0, libraw.getImageWidth(), libraw.getImageHeight(), PixelFormat.getIntArgbInstance(), raw, 0, libraw.getImageWidth());
+                ImageView view = new ImageView();
+                view.setFitHeight(200);
+                view.setFitWidth(200);
+                view.setPreserveRatio(true);
+                vbox.getChildren().add(view);
+                view.setImage(img);
+            } catch (IOException ex) {
+                Logger.getLogger(JEditFXController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            progressInfo.setVisible(false);
         });
         task.setOnFailed((WorkerStateEvent t) -> {
             progressInfo.setVisible(false);
@@ -365,7 +386,7 @@ public class JEditFXController implements Initializable {
     }
 
     private void readText(int linesToRead, long start, String insertPos) throws IOException {
-        String actualReadLine;        
+        String actualReadLine;
         if (start == 0) {
             encoding = UniversalDetector.detectCharset(file);
             if (encoding == null) {
@@ -383,7 +404,7 @@ public class JEditFXController implements Initializable {
             Platform.runLater(() -> {
                 progressBar.setProgress(0);
             });
-        }        
+        }
         try ( BufferedReader reader = Files.newBufferedReader(file.toPath(), Charset.forName(encoding))) {
             reader.skip(start);
             int count = 0;
@@ -395,8 +416,8 @@ public class JEditFXController implements Initializable {
                     final String txt = actualReadLine;
                     if (linesToRead > 1) {
                         final double pVal = (double) count / linesToRead;
-                        final String pstr = 100 * (double) count / linesToRead + "%";                                             
-                        
+                        final String pstr = 100 * (double) count / linesToRead + "%";
+
                     }
                     /*try {
                         Thread.sleep(5);
@@ -451,17 +472,33 @@ public class JEditFXController implements Initializable {
 
     @FXML
     private void closeFileAction(ActionEvent event) {
-        file = null;
-        isChanged.setValue(Boolean.FALSE);
-        filePos = 0;
-        startViewFileLine = 1;
-        endViewFileLine = 1;
-        textarea.clear();
-        sizeLabel.setText("Lines: ");
-        linesLabel.setText("Size: ");
-        charsetLabel.setText("DEFAULT");
-        encoding = null;
-        tabbedPane.getTabs().get(0).setText("Unnamed-1");
+        try {
+            File initialFile = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "RAW-ADOBE_DNG_Sample.dng");
+            LibrawImage libraw = new LibrawImage(initialFile.getAbsolutePath());
+            int[] raw = libraw.readPixelData();
+            WritableImage img = new WritableImage(libraw.getImageWidth(), libraw.getImageHeight());
+            PixelWriter pw = img.getPixelWriter();
+            pw.setPixels(0, 0, libraw.getImageWidth(), libraw.getImageHeight(), PixelFormat.getIntArgbInstance(), raw, 0, libraw.getImageWidth());
+            ImageView view = new ImageView();
+            view.setFitHeight(200);
+            view.setFitWidth(200);
+            view.setPreserveRatio(true);
+            vbox.getChildren().add(view);
+            view.setImage(img);
+            file = null;
+            isChanged.setValue(Boolean.FALSE);
+            filePos = 0;
+            startViewFileLine = 1;
+            endViewFileLine = 1;
+            textarea.clear();
+            sizeLabel.setText("Lines: ");
+            linesLabel.setText("Size: ");
+            charsetLabel.setText("DEFAULT");
+            encoding = null;
+            tabbedPane.getTabs().get(0).setText("Unnamed-1");
+        } catch (IOException ex) {
+            Logger.getLogger(JEditFXController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML

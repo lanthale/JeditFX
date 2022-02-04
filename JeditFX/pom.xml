@@ -6,7 +6,7 @@
 
     <groupId>at.ITArchitects</groupId>
     <artifactId>JeditFX</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
     
     <description>JeditFX is a simple editor like notepad but support for very large files</description>
 
@@ -15,7 +15,7 @@
         <app.name>JeditFX</app.name>        
         <maven.build.timestamp.format>yy.ww.WWkkmm</maven.build.timestamp.format>
         <app.version>${version}</app.version>        
-        <jvm.modules>javafx.media,javafx.controls,javafx.fxml,javafx.graphics,java.logging</jvm.modules>        
+        <jvm.modules>java.base,jdk.management,java.naming,java.sql,java.transaction.xa,java.xml,jdk.unsupported,java.management,java.datatransfer,java.desktop,java.security.jgss,java.xml.crypto,jdk.javadoc,javafx.media,javafx.controls,javafx.fxml,javafx.graphics,javafx.base,javafx.swing,javafx.web,java.logging,jdk.charsets,jdk.incubator.foreign,java.net.http,java.prefs,jdk.crypto.ec,jdk.crypto.cryptoki,jdk.localedata,java.compiler,jdk.net,java.instrument,java.scripting,java.rmi</jvm.modules>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>        
@@ -64,6 +64,11 @@
             <artifactId>juniversalchardet</artifactId>
             <version>2.3.2</version>
         </dependency>
+        <dependency>  
+            <groupId>org.librawfx</groupId>    
+            <artifactId>LibRawFX</artifactId>  
+            <version>1.7.7</version>  
+        </dependency>  
 
         <!-- This downloads the platform specific JavaFX libraries used by the project. -->
         <!-- For the final installable, the JavaFX dependencies are provided via modules, but by including these here
@@ -153,10 +158,14 @@
                         <!-- Usage: mvn clean javafx:run -->
                         <id>default-cli</id>                            
                         <configuration>
-                            <mainClass>${mainClass}</mainClass>
+                            <mainClass>${main-class}</mainClass>
                             <options>                                                                     
                                 <option>-XX:+UseZGC</option>
-                                <option>--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls</option>                                
+                                <option>--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls</option>  
+                                <option>--enable-native-access ALL-UNNAMED</option>
+                                <option>--add-modules jdk.incubator.foreign</option>                                
+                                <option>--add-exports=javafx.graphics/com.sun.javafx.iio=ALL-UNNAMED</option>                                
+                                <option>--add-exports=javafx.graphics/com.sun.javafx.iio.common=ALL-UNNAMED</option>                              
                             </options>
                         </configuration>
                     </execution>
@@ -165,11 +174,15 @@
                         <!-- Usage: mvn clean javafx:run@debug -->
                         <id>debug</id>
                         <configuration>
-                            <mainClass>${mainClass}</mainClass>
+                            <mainClass>${main-class}</mainClass>
                             <options>                                     
                                 <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=localhost:8000</option>                                    
                                 <option>-XX:+UseZGC</option>
-                                <option>--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls</option>                                
+                                <option>--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls</option>  
+                                <option>--enable-native-access ALL-UNNAMED</option>
+                                <option>--add-modules jdk.incubator.foreign</option>                                
+                                <option>--add-exports=javafx.graphics/com.sun.javafx.iio=ALL-UNNAMED</option>                                
+                                <option>--add-exports=javafx.graphics/com.sun.javafx.iio.common=ALL-UNNAMED</option>                                 
                             </options>
                         </configuration>
                     </execution>
@@ -177,7 +190,7 @@
                         <!-- Configuration for automatic IDE debugging -->
                         <id>ide-debug</id>
                         <configuration>
-                            <mainClass>${mainClass}</mainClass>
+                            <mainClass>${main-class}</mainClass>
                             <options>                                     
                                 <option>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</option>                                    
                                 <option>-XX:+UseZGC</option>
@@ -189,7 +202,7 @@
                         <!-- Configuration for automatic IDE profiling -->
                         <id>ide-profile</id>
                         <configuration>
-                            <mainClass>${mainClass}</mainClass>
+                            <mainClass>${main-class}</mainClass>
                             <options>
                                 <option>${profiler.jvmargs.arg1}</option>
                                 <option>${profiler.jvmargs.arg2}</option>
@@ -306,32 +319,6 @@
             <properties>
                 <platform>win</platform>
             </properties>
-            <build>
-                <plugins>
-                    <plugin>                        
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>3.0.0</version>
-                        <executions>
-                            <execution>
-                                <phase>install</phase>
-                                <id>add-launch-to-msi</id>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <executable>cscript</executable>
-                            <outputFile>${project.build.directory}/msi-result.log</outputFile>
-                            <workingDirectory>${project.build.directory}</workingDirectory>
-                            <arguments>
-                                <argument>${project.build.directory}/packaging/add-launch-to-msi.js</argument>
-                            </arguments>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
         <profile>
             <id>mac-active</id>

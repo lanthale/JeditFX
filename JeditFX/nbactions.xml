@@ -6,10 +6,14 @@
                 <packaging>jar</packaging>
             </packagings>
             <goals>
-                <goal>clean</goal>
-                <goal>javafx:run</goal>
+                <goal>javafx:run@default-cli</goal>
+                
                 
             </goals>
+            <properties>
+                <exec.args>-classpath %classpath at.itarchitects.jeditfx.App</exec.args>
+                <exec.executable>java</exec.executable>
+            </properties>
         </action>
         <action>
             <actionName>debug</actionName>
