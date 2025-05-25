@@ -177,7 +177,7 @@ public class JEditFXController implements Initializable {
         mainview.getChildren().add(panev);
         filePos = 0;
         doubleProgress = new SimpleDoubleProperty();
-        stringProperty = new SimpleStringProperty();                
+        stringProperty = new SimpleStringProperty();
         progressBar.progressProperty().bindBidirectional(doubleProgress);
         stringProperty.addListener((o) -> {
             Platform.runLater(() -> {
@@ -197,7 +197,7 @@ public class JEditFXController implements Initializable {
             if (db.hasFiles() == true) {
                 this.file = db.getFiles().get(0);
                 progressInfo.setVisible(true);
-                progressBar.setProgress(0);
+                //progressBar.setProgress(0);
                 progressLabel.setText("Start reading...");
                 textarea.clear();
 
@@ -271,14 +271,17 @@ public class JEditFXController implements Initializable {
     public void openFileAction(ActionEvent event) {
         Logger.getLogger(JEditFXController.class.getName()).log(Level.SEVERE, "OpenFileAction");
         fileChooser.setTitle("Open File");
-        System.out.println("file was: " + file);
-        System.out.println("actionevent was: " + event);
+        if (file != null) {
+            if (file.toString().contains("jeditfx.App")) {
+                file = null;
+                return;
+            }
+        }
         if (file == null) {
             file = fileChooser.showOpenDialog(stage);
         }
         progressInfo.setVisible(true);
         progressBar.setVisible(true);
-        progressBar.setProgress(0);
         progressLabel.setText("Start reading...");
         textarea.clear();
 
@@ -295,7 +298,14 @@ public class JEditFXController implements Initializable {
                 return true;
             }
         };
-        progressBar.progressProperty().bind(task.progressProperty());        
+        task.setOnSucceeded((t) -> {
+            progressInfo.setVisible(false);
+        });
+        task.setOnFailed((t) -> {
+            progressInfo.setVisible(false);
+        });
+        progressBar.progressProperty().bind(task.progressProperty());
+        executor.submit(task);
     }
 
     private void readText(int linesToRead, long start, String insertPos) throws IOException {
@@ -310,13 +320,9 @@ public class JEditFXController implements Initializable {
             });
             Platform.runLater(() -> {
                 progressBar.setVisible(true);
-                progressBar.setProgress(-1);
                 progressLabel.setText("Building file map...");
             });
             createFileMap();
-            Platform.runLater(() -> {
-                progressBar.setProgress(0);
-            });
         }
         try (BufferedReader reader = Files.newBufferedReader(file.toPath(), Charset.forName(encoding))) {
             reader.skip(start);
@@ -332,14 +338,6 @@ public class JEditFXController implements Initializable {
                         final String pstr = 100 * (double) count / linesToRead + "%";
 
                     }
-                    /*try {
-                        Thread.sleep(5);
-                    } catch (InterruptedException ex) {
-                        return;
-                    }
-                    if (insertPos.equalsIgnoreCase("END")) {
-                        endViewFileLine = endViewFileLine + 1;
-                    }
                     Platform.runLater(() -> {
                         if (insertPos.equalsIgnoreCase("END")) {
                             textarea.appendText(txt + "\n");
@@ -348,7 +346,7 @@ public class JEditFXController implements Initializable {
                             startViewFileLine = startViewFileLine - 1;
                             textarea.insertText(0, txt + "\n");
                         }
-                    });*/
+                    });
                 }
                 count = count + 1;
             }

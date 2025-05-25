@@ -37,7 +37,7 @@ public class App extends Application {
     private static final double DEFAULT_WIDTH = 700;
     private static final double DEFAULT_HEIGHT = 500;
     private static final boolean DEFAULT_MAXIMIZED = false;
-    private static final String NODE_NAME = "JeditFX";    
+    private static final String NODE_NAME = "JeditFX";
     private FXMLLoader fxmlLoader;
     private static File fileToLoad;
     private static JEditFXController controller;
@@ -47,9 +47,9 @@ public class App extends Application {
         glassApp.setEventHandler(new com.sun.glass.ui.Application.EventHandler() {
             @Override
             public void handleOpenFilesAction(com.sun.glass.ui.Application app, long time, String[] filenames) {
-                super.handleOpenFilesAction(app, time, filenames);
-                Logger.getLogger("at.itarchitects.jeditfx").log(Level.SEVERE, "Parameters size " + filenames.length);
-                if (filenames.length > 0) {
+                if (filenames.length > 1) {
+                    super.handleOpenFilesAction(app, time, filenames);
+                    Logger.getLogger("at.itarchitects.jeditfx").log(Level.SEVERE, "Parameters size " + filenames.length);
                     if (controller == null) {
                         Logger.getLogger("at.itarchitects.jeditfx").log(Level.SEVERE, "Getting File to load " + fileToLoad);
                         fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/jeditform.fxml"));
@@ -129,7 +129,7 @@ public class App extends Application {
         preferences.putDouble(WINDOW_POSITION_Y, stage.getY());
         preferences.putDouble(WINDOW_WIDTH, stage.getWidth());
         preferences.putDouble(WINDOW_HEIGHT, stage.getHeight());
-        preferences.putBoolean(WINDOW_MAXIMIZED, stage.isMaximized());        
+        preferences.putBoolean(WINDOW_MAXIMIZED, stage.isMaximized());
         preferences.putBoolean("WRAPTEXT", controller.getWrapText());
         preferences.putInt("FONTSIZE", controller.getFontSize());
         controller.getExecutor().shutdownNow();
