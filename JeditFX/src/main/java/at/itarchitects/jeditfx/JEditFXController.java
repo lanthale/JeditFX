@@ -65,7 +65,6 @@ import org.fxmisc.richtext.model.Paragraph;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
 import org.kordamp.ikonli.javafx.FontIcon;
-import org.librawfx.LibrawImage;
 import org.mozilla.universalchardet.UniversalDetector;
 
 public class JEditFXController implements Initializable {
@@ -178,65 +177,7 @@ public class JEditFXController implements Initializable {
         mainview.getChildren().add(panev);
         filePos = 0;
         doubleProgress = new SimpleDoubleProperty();
-        stringProperty = new SimpleStringProperty();
-        textarea.addEventFilter(ScrollEvent.ANY, EH -> {
-            double totalDeltaY = EH.getDeltaY();
-            if (totalDeltaY < 0) {
-                if (linesToRead > maxLineReadAhead) {
-                    progressInfo.setVisible(true);
-                    progressBar.setVisible(false);
-                    Task<Object> task = new Task<Object>() {
-                        @Override
-                        protected Object call() throws Exception {
-                            Platform.runLater(() -> {
-                                progressLabel.setText("Reading lines...");
-                            });
-                            readText(1, filePos, "END");
-                            System.out.println("Scroll down: " + endViewFileLine);
-                            Platform.runLater(() -> {
-                                lastDeletedLineQTY = lastDeletedLineQTY + (textarea.getContent().getText(0) + "\n").length();
-                                //textarea.deleteText(0, (textarea.getContent().getText(0) + "\n").length());
-                            });
-                            return true;
-                        }
-                    };
-                    task.setOnSucceeded((WorkerStateEvent t) -> {
-                        progressInfo.setVisible(false);
-                    });
-                    task.setOnFailed((WorkerStateEvent t) -> {
-                        util.showError("Error reading additional lines from file " + file.getAbsolutePath(), new Exception(t.getSource().getException()));
-                    });
-                    executor.submit(task);
-                }
-            } else {
-                Task<Object> task = new Task<Object>() {
-                    @Override
-                    protected Object call() throws Exception {
-                        /*Platform.runLater(() -> {
-                        progressLabel.setText("Reading lines...");
-                        });
-                        if (lastDeletedLineQTY != 0) {
-                        System.out.println("Scrolling up");
-                        System.out.println("filepos " + filePos);
-                        System.out.println("startpos " + (filePos - textarea.getContent().getLength() - 1));
-                        readText(1, filePos - textarea.getContent().getLength() - lastDeletedLineQTY, "BEGIN");
-                        lastDeletedLineQTY = 0;
-                        }
-                        Platform.runLater(() -> {
-                        //textarea.deleteText(0, (textarea.getContent().getText(0) + "\n").length());
-                        });*/
-                        return true;
-                    }
-                };
-                task.setOnSucceeded((WorkerStateEvent t) -> {
-                    progressInfo.setVisible(false);
-                });
-                task.setOnFailed((WorkerStateEvent t) -> {
-                    util.showError("Error reading additional lines from file " + file.getAbsolutePath(), new Exception(t.getSource().getException()));
-                });
-                //executor.submit(task);
-            }
-        });
+        stringProperty = new SimpleStringProperty();                
         progressBar.progressProperty().bindBidirectional(doubleProgress);
         stringProperty.addListener((o) -> {
             Platform.runLater(() -> {
@@ -354,35 +295,7 @@ public class JEditFXController implements Initializable {
                 return true;
             }
         };
-        progressBar.progressProperty().bind(task.progressProperty());
-        task.setOnSucceeded((WorkerStateEvent t) -> {
-            try {
-                if (file != null) {
-                    isChanged.setValue(Boolean.FALSE);
-                    tabbedPane.getTabs().get(0).setText(tabbedPane.getTabs().get(0).getText().substring(1));
-                }
-                progressInfo.setVisible(false);
-                File initialFile = file;
-                LibrawImage libraw = new LibrawImage(initialFile.getAbsolutePath());
-                int[] raw = libraw.readPixelData();
-                WritableImage img = new WritableImage(libraw.getImageWidth(), libraw.getImageHeight());
-                PixelWriter pw = img.getPixelWriter();
-                pw.setPixels(0, 0, libraw.getImageWidth(), libraw.getImageHeight(), PixelFormat.getIntArgbInstance(), raw, 0, libraw.getImageWidth());
-                ImageView view = new ImageView();
-                view.setFitHeight(200);
-                view.setFitWidth(200);
-                view.setPreserveRatio(true);
-                vbox.getChildren().add(view);
-                view.setImage(img);
-            } catch (IOException ex) {
-                Logger.getLogger(JEditFXController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
-        task.setOnFailed((WorkerStateEvent t) -> {
-            progressInfo.setVisible(false);
-            util.showError("Error reading additional lines from fil " + file.getAbsolutePath(), new Exception(t.getSource().getException()));
-        });
-        executor.submit(task);
+        progressBar.progressProperty().bind(task.progressProperty());        
     }
 
     private void readText(int linesToRead, long start, String insertPos) throws IOException {
@@ -405,7 +318,7 @@ public class JEditFXController implements Initializable {
                 progressBar.setProgress(0);
             });
         }
-        try ( BufferedReader reader = Files.newBufferedReader(file.toPath(), Charset.forName(encoding))) {
+        try (BufferedReader reader = Files.newBufferedReader(file.toPath(), Charset.forName(encoding))) {
             reader.skip(start);
             int count = 0;
             while ((actualReadLine = reader.readLine()) != null) {
@@ -446,7 +359,7 @@ public class JEditFXController implements Initializable {
     private void createFileMap() throws IOException {
         String actualReadLine;
 
-        try ( BufferedReader reader = Files.newBufferedReader(file.toPath(), Charset.forName(encoding))) {
+        try (BufferedReader reader = Files.newBufferedReader(file.toPath(), Charset.forName(encoding))) {
             int count = 1;
             linesToRead = reader.lines().count();
             Platform.runLater(() -> {
@@ -472,33 +385,17 @@ public class JEditFXController implements Initializable {
 
     @FXML
     private void closeFileAction(ActionEvent event) {
-        try {
-            File initialFile = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "RAW-ADOBE_DNG_Sample.dng");
-            LibrawImage libraw = new LibrawImage(initialFile.getAbsolutePath());
-            int[] raw = libraw.readPixelData();
-            WritableImage img = new WritableImage(libraw.getImageWidth(), libraw.getImageHeight());
-            PixelWriter pw = img.getPixelWriter();
-            pw.setPixels(0, 0, libraw.getImageWidth(), libraw.getImageHeight(), PixelFormat.getIntArgbInstance(), raw, 0, libraw.getImageWidth());
-            ImageView view = new ImageView();
-            view.setFitHeight(200);
-            view.setFitWidth(200);
-            view.setPreserveRatio(true);
-            vbox.getChildren().add(view);
-            view.setImage(img);
-            file = null;
-            isChanged.setValue(Boolean.FALSE);
-            filePos = 0;
-            startViewFileLine = 1;
-            endViewFileLine = 1;
-            textarea.clear();
-            sizeLabel.setText("Lines: ");
-            linesLabel.setText("Size: ");
-            charsetLabel.setText("DEFAULT");
-            encoding = null;
-            tabbedPane.getTabs().get(0).setText("Unnamed-1");
-        } catch (IOException ex) {
-            Logger.getLogger(JEditFXController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        file = null;
+        isChanged.setValue(Boolean.FALSE);
+        filePos = 0;
+        startViewFileLine = 1;
+        endViewFileLine = 1;
+        textarea.clear();
+        sizeLabel.setText("Lines: ");
+        linesLabel.setText("Size: ");
+        charsetLabel.setText("DEFAULT");
+        encoding = null;
+        tabbedPane.getTabs().get(0).setText("Unnamed-1");
     }
 
     @FXML

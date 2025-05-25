@@ -18,7 +18,6 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 import javafx.scene.image.Image;
 import javafx.stage.WindowEvent;
-import org.librawfx.RAWImageLoaderFactory;
 
 /**
  * JavaFX App
@@ -110,7 +109,6 @@ public class App extends Application {
         }
         controller.setWrapText(pref.getBoolean("WRAPTEXT", false));
         controller.setFontSize(pref.getInt("FONTSIZE", 11));
-        RAWImageLoaderFactory.install();
 
         stage.setScene(scene);
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/img/icon_256x256.png")));

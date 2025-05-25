@@ -15,11 +15,11 @@
         <app.name>JeditFX</app.name>        
         <maven.build.timestamp.format>yy.ww.WWkkmm</maven.build.timestamp.format>
         <app.version>${version}</app.version>        
-        <jvm.modules>java.base,jdk.management,java.naming,java.sql,java.transaction.xa,java.xml,jdk.unsupported,java.management,java.datatransfer,java.desktop,java.security.jgss,java.xml.crypto,jdk.javadoc,javafx.media,javafx.controls,javafx.fxml,javafx.graphics,javafx.base,javafx.swing,javafx.web,java.logging,jdk.charsets,jdk.incubator.foreign,java.net.http,java.prefs,jdk.crypto.ec,jdk.crypto.cryptoki,jdk.localedata,java.compiler,jdk.net,java.instrument,java.scripting,java.rmi</jvm.modules>
+        <jvm.modules>java.base,jdk.management,java.naming,java.sql,java.transaction.xa,java.xml,jdk.unsupported,java.management,java.datatransfer,java.desktop,java.security.jgss,java.xml.crypto,jdk.javadoc,javafx.media,javafx.controls,javafx.fxml,javafx.graphics,javafx.base,javafx.swing,javafx.web,java.logging,jdk.charsets,java.net.http,java.prefs,jdk.crypto.ec,jdk.crypto.cryptoki,jdk.localedata,java.compiler,jdk.net,java.instrument,java.scripting,java.rmi</jvm.modules>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>        
-        <javafx.version>18-ea+7</javafx.version>
+        <maven.compiler.source>23</maven.compiler.source>
+        <maven.compiler.target>23</maven.compiler.target>        
+        <javafx.version>24</javafx.version>
         <!-- unique UUID via https://www.uuidgenerator.net -->
         <windows.upgrade.uuid>3559e02e-f0f5-4bdf-ac71-a839a33f6b7e</windows.upgrade.uuid>
         <!-- This is used to set many user-visible fields in the Windows Installer. See win-jpackage.txt -->
@@ -63,12 +63,7 @@
             <groupId>com.github.albfernandez</groupId>
             <artifactId>juniversalchardet</artifactId>
             <version>2.3.2</version>
-        </dependency>
-        <dependency>  
-            <groupId>org.librawfx</groupId>    
-            <artifactId>LibRawFX</artifactId>  
-            <version>1.7.7</version>  
-        </dependency>  
+        </dependency>         
 
         <!-- This downloads the platform specific JavaFX libraries used by the project. -->
         <!-- For the final installable, the JavaFX dependencies are provided via modules, but by including these here
@@ -76,26 +71,22 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-base</artifactId>
-            <version>${javafx.version}</version>            
-            <classifier>${platform}</classifier>
+            <version>${javafx.version}</version>                        
         </dependency>        
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>${javafx.version}</version>
-            <classifier>${platform}</classifier>
+            <version>${javafx.version}</version>            
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-graphics</artifactId>
-            <version>${javafx.version}</version>
-            <classifier>${platform}</classifier>
+            <version>${javafx.version}</version>            
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>${javafx.version}</version>
-            <classifier>${platform}</classifier>
+            <version>${javafx.version}</version>            
         </dependency>
         
     </dependencies>
@@ -148,6 +139,60 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>com.gluonhq</groupId>
+                <artifactId>gluonfx-maven-plugin</artifactId>
+                <version>1.0.26</version>
+                <configuration>
+                    <target>host</target>
+                    <mainClass>${main-class}</mainClass>
+                    <bundlesList></bundlesList>
+                    <resourcesList></resourcesList>
+                    <reflectionList></reflectionList>
+                    <jniList></jniList>
+                    <attachList></attachList>
+                    <nativeImageArgs>
+                        <arg>--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls</arg>                        
+                    </nativeImageArgs>
+                    <linkerArgs></linkerArgs>
+                    <runtimeArgs></runtimeArgs>
+                    <verbose>false</verbose>
+                    <graalvmHome>/Library/Java/graalvm-java23-darwin-aarch64-gluon-23+25.1-dev/Contents/Home</graalvmHome>
+                    <javaStaticSdkVersion></javaStaticSdkVersion>
+                    <javafxStaticSdkVersion></javafxStaticSdkVersion>
+                    <enableSWRendering>false</enableSWRendering>
+                    <remoteHostName></remoteHostName>
+                    <remoteDir></remoteDir>
+                    <appIdentifier></appIdentifier>
+                    <releaseConfiguration>
+                        <!-- all targets -->
+                        <packageType>app</packageType>
+                        <description></description>
+                        <vendor></vendor>
+                        <!-- macOS -->
+                        <macAppStore></macAppStore>
+                        <macSigningUserName></macSigningUserName>
+                        <macAppCategory></macAppCategory>
+                        <!-- macOS/iOS -->
+                        <bundleName>${app.name}</bundleName>
+                        <bundleVersion>${app.version}</bundleVersion>
+                        <bundleShortVersion>${app.version}</bundleShortVersion>
+                        <providedSigningIdentity></providedSigningIdentity>
+                        <providedProvisioningProfile></providedProvisioningProfile>
+                        <skipSigning>true</skipSigning>
+                        <!-- iOS Simulator -->
+                        <simulatorDevice></simulatorDevice>
+                        <!-- Android -->
+                        <appLabel></appLabel>
+                        <versionCode>1</versionCode>
+                        <versionName>1.0</versionName>
+                        <providedKeyStorePath>${android-keystore-path}</providedKeyStorePath>
+                        <providedKeyStorePassword>${android-keystore-password}</providedKeyStorePassword>
+                        <providedKeyAlias>${android-key-alias}</providedKeyAlias>
+                        <providedKeyAliasPassword>${android-key-password}</providedKeyAliasPassword>
+                    </releaseConfiguration>
+                </configuration>
+            </plugin>
+            <plugin>
                 <!-- Plugin to make working with JavaFX nicer. See https://github.com/openjfx/javafx-maven-plugin -->
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
@@ -159,11 +204,11 @@
                         <id>default-cli</id>                            
                         <configuration>
                             <mainClass>${main-class}</mainClass>
-                            <options>                                                                     
+                            <options> 
+                                <!-- <option>-agentlib:native-image-agent=config-output-dir=/Users/selfemp/MountPoints/Development/NetBeansProjects/JeditFX/JeditFX/res</option>  -->                                                                   
                                 <option>-XX:+UseZGC</option>
                                 <option>--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls</option>  
-                                <option>--enable-native-access ALL-UNNAMED</option>
-                                <option>--add-modules jdk.incubator.foreign</option>                                
+                                <option>--enable-native-access ALL-UNNAMED</option>                                
                                 <option>--add-exports=javafx.graphics/com.sun.javafx.iio=ALL-UNNAMED</option>                                
                                 <option>--add-exports=javafx.graphics/com.sun.javafx.iio.common=ALL-UNNAMED</option>                              
                             </options>
@@ -179,8 +224,7 @@
                                 <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=localhost:8000</option>                                    
                                 <option>-XX:+UseZGC</option>
                                 <option>--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls</option>  
-                                <option>--enable-native-access ALL-UNNAMED</option>
-                                <option>--add-modules jdk.incubator.foreign</option>                                
+                                <option>--enable-native-access ALL-UNNAMED</option>                                
                                 <option>--add-exports=javafx.graphics/com.sun.javafx.iio=ALL-UNNAMED</option>                                
                                 <option>--add-exports=javafx.graphics/com.sun.javafx.iio.common=ALL-UNNAMED</option>                                 
                             </options>

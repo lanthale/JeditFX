@@ -47,18 +47,15 @@
             <actionName>CUSTOM-graalvm</actionName>
             <displayName>graalvm</displayName>
             <goals>
-                <goal>client:build</goal>
+                <goal>gluonfx:build</goal>
             </goals>
         </action>
         <action>
             <actionName>CUSTOM-graalvm package</actionName>
             <displayName>graalvm package</displayName>
             <goals>
-                <goal>client:package</goal>
+                <goal>gluonfx:package</goal>
             </goals>
-            <activatedProfiles>
-                <activatedProfile>package</activatedProfile>
-            </activatedProfiles>
         </action>
         <action>
             <actionName>profile</actionName>
@@ -68,6 +65,20 @@
             <goals>
                 <goal>clearn</goal>
                 <goal>javafx:run@ide-profile</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-graalvm agent</actionName>
+            <displayName>graalvm agent</displayName>
+            <goals>
+                <goal>gluonfx:runagent</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-graalvm nativerun</actionName>
+            <displayName>graalvm nativerun</displayName>
+            <goals>
+                <goal>gluonfx:nativerun</goal>
             </goals>
         </action>
         
