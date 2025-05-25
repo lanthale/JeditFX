@@ -6,7 +6,7 @@
 
     <groupId>at.ITArchitects</groupId>
     <artifactId>JeditFX</artifactId>
-    <version>1.0.7-SNAPSHOT</version>
+    <version>1.0.6-SNAPSHOT</version>
     
     <description>JeditFX is a simple editor like notepad but support for very large files</description>
 
@@ -14,7 +14,7 @@
         <main-class>at.itarchitects.jeditfx.App</main-class>        
         <app.name>JeditFX</app.name>        
         <maven.build.timestamp.format>yy.ww.WWkkmm</maven.build.timestamp.format>
-        <app.version>1.0.7</app.version>        
+        <app.version>1.0.6</app.version>        
         <jvm.modules>java.base,jdk.management,java.naming,java.sql,java.transaction.xa,java.xml,jdk.unsupported,java.management,java.datatransfer,java.desktop,java.security.jgss,java.xml.crypto,jdk.javadoc,javafx.media,javafx.controls,javafx.fxml,javafx.graphics,javafx.base,javafx.swing,javafx.web,java.logging,jdk.charsets,java.net.http,java.prefs,jdk.crypto.ec,jdk.crypto.cryptoki,jdk.localedata,java.compiler,jdk.net,java.instrument,java.scripting,java.rmi</jvm.modules>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>23</maven.compiler.source>
