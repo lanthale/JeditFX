@@ -9,8 +9,6 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -18,11 +16,8 @@ import javafx.scene.control.Button;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javafx.application.Platform;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -43,27 +38,17 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.PixelFormat;
-import javafx.scene.image.PixelWriter;
-import javafx.scene.image.WritableImage;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.fxmisc.flowless.VirtualizedScrollPane;
-import org.fxmisc.richtext.CodeArea;
-import org.fxmisc.richtext.LineNumberFactory;
-import org.fxmisc.richtext.model.Paragraph;
-import org.fxmisc.richtext.model.StyleSpans;
-import org.fxmisc.richtext.model.StyleSpansBuilder;
+import jfx.incubator.scene.control.richtext.CodeArea;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.mozilla.universalchardet.UniversalDetector;
 
@@ -94,11 +79,10 @@ public class JEditFXController implements Initializable {
     @FXML
     private Button saveButton;
     @FXML
-    private VBox vbox;
-    private CodeArea textarea;
+    private VBox vbox;    
+    private CodeArea textarea2;
     
-    private Stage stage;
-    private VirtualizedScrollPane<CodeArea> panev;
+    private Stage stage;    
     private File file;
     private long filePos;
     @FXML
@@ -158,23 +142,16 @@ public class JEditFXController implements Initializable {
                 .getExtensionFilters()
                 .addAll(
                         new FileChooser.ExtensionFilter("All Files", "*.*"),
-                        new FileChooser.ExtensionFilter("Text Files", "*.txt"));
-        textarea = new CodeArea();
-        textarea.wrapTextProperty().bindBidirectional(wrapTextCheckBox.selectedProperty());
-        textarea.setParagraphGraphicFactory(LineNumberFactory.get(textarea));
-        textarea.plainTextChanges().observe((t) -> {
-            if (file != null) {
-                isChanged.setValue(Boolean.TRUE);
-                if (!tabbedPane.getTabs().get(0).getText().contains("*")) {
-                    tabbedPane.getTabs().get(0).setText("*" + tabbedPane.getTabs().get(0).getText());
-                }
-            }
-        });
-        panev = new VirtualizedScrollPane<>(textarea);
+                        new FileChooser.ExtensionFilter("Text Files", "*.txt"));        
+        textarea2 = new CodeArea();
+        textarea2.setLineNumbersEnabled(true);        
+        textarea2.setWrapText(wrapTextCheckBox.isSelected());
+        
         iconview = new FontIcon("fa-arrow-circle-left:12");
         iconviewDelete = new FontIcon("fa-trash:12");
         
-        mainview.getChildren().add(panev);
+        //mainview.getChildren().add(panev);
+        mainview.getChildren().add(textarea2);
         filePos = 0;
         doubleProgress = new SimpleDoubleProperty();
         stringProperty = new SimpleStringProperty();
@@ -184,22 +161,22 @@ public class JEditFXController implements Initializable {
                 progressLabel.setText(stringProperty.getValue());
             });
         });
-        textarea.setOnDragOver((DragEvent event) -> {
-            if (event.getGestureSource() != textarea
+        textarea2.setOnDragOver((DragEvent event) -> {
+            if (event.getGestureSource() != textarea2
                     && event.getDragboard().hasFiles()) {
                 /* allow for both copying and moving, whatever user chooses */
                 event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
             }
             event.consume();
         });
-        textarea.setOnDragDropped((t) -> {
+        textarea2.setOnDragDropped((t) -> {
             Dragboard db = t.getDragboard();
             if (db.hasFiles() == true) {
                 this.file = db.getFiles().get(0);
                 progressInfo.setVisible(true);
                 //progressBar.setProgress(0);
                 progressLabel.setText("Start reading...");
-                textarea.clear();
+                textarea2.clear();
                 
                 Task<Object> task = new Task<Object>() {
                     @Override
@@ -236,7 +213,7 @@ public class JEditFXController implements Initializable {
     
     @FXML
     public void exit() {
-        if (textarea.getText().isEmpty()) {
+        if (textarea2.getText().isEmpty()) {
             executor.shutdownNow();
             App.saveSettings((Stage) mainview.getScene().getWindow(), this);
             System.exit(0);
@@ -283,11 +260,12 @@ public class JEditFXController implements Initializable {
         progressInfo.setVisible(true);
         progressBar.setVisible(true);
         progressLabel.setText("Start reading...");
-        textarea.clear();
+        textarea2.clear();
         
         Task<String> task = new Task<>() {
             @Override
             protected String call() throws Exception {
+                StringBuilder ob=new StringBuilder();
                 if (file != null) {
                     Platform.runLater(() -> {
                         tabbedPane.getTabs().get(0).setText(file.getName());
@@ -303,11 +281,10 @@ public class JEditFXController implements Initializable {
                     }
                     Platform.runLater(() -> {
                         charsetLabel.setText(encoding);
-                    });                    
+                    });
                     updateMessage("Building file map...");
-                    createFileMap();                    
-                    updateMessage("Reading File...");                    
-                    
+                    createFileMap();
+                    updateMessage("Reading File...");
                     try (BufferedReader reader = Files.newBufferedReader(file.toPath(), Charset.forName(encoding))) {
                         //reader.skip(start);
                         int count = 0;
@@ -315,23 +292,23 @@ public class JEditFXController implements Initializable {
                             filePos = filePos + actualReadLine.length() + "\n".length();
                             final String txt = actualReadLine;
                             updateProgress(count, linesToRead);
-                            updateMessage("Line "+count);
-                            updateValue(txt + "\n");                            
-                            count = count + 1;                            
+                            updateMessage("Line " + count);
+                            //ob.append(txt).append("\n"); 
+                            //ob.append(txt).append("\n"); 
+                            ob.append(txt + "\n");
+                            textarea2.appendText(txt+"\n");
+                            count = count + 1;
                         }
                     }
                 }
-                return "";
+                return ob.toString();
             }
         };
-        task.setOnSucceeded((t) -> {
-            progressInfo.setVisible(false);
+        task.setOnSucceeded((t) -> {              
+            progressInfo.setVisible(false);            
         });
         task.setOnFailed((t) -> {
             progressInfo.setVisible(false);
-        });                
-        task.valueProperty().addListener((o) -> {
-            textarea.appendText(task.getValue());
         });
         progressBar.progressProperty().bind(task.progressProperty());
         progressLabel.textProperty().bind(task.messageProperty());
@@ -367,15 +344,7 @@ public class JEditFXController implements Initializable {
                         final double pVal = (double) count / linesToRead;
                         final String pstr = 100 * (double) count / linesToRead + "%";
                     }
-                    Platform.runLater(() -> {
-                        if (insertPos.equalsIgnoreCase("END")) {
-                            textarea.appendText(txt + "\n");
-                        }
-                        if (insertPos.equalsIgnoreCase("BEGIN")) {
-                            startViewFileLine = startViewFileLine - 1;
-                            textarea.insertText(0, txt + "\n");
-                        }
-                    });
+                    textarea2.appendText(txt + "\n");
                 }
                 count = count + 1;
             }
@@ -417,7 +386,7 @@ public class JEditFXController implements Initializable {
         filePos = 0;
         startViewFileLine = 1;
         endViewFileLine = 1;
-        textarea.clear();
+        textarea2.clear();
         sizeLabel.setText("Lines: ");
         linesLabel.setText("Size: ");
         charsetLabel.setText("DEFAULT");
@@ -433,7 +402,7 @@ public class JEditFXController implements Initializable {
             progressLabel.setText("Saving file...");
             if (file != null) {
                 BufferedWriter out = Files.newBufferedWriter(file.toPath(), Charset.forName("UTF-8"), StandardOpenOption.WRITE);
-                out.write(textarea.getText());
+                out.write(textarea2.getText());
                 out.close();
                 Platform.runLater(() -> {
                     tabbedPane.getTabs().get(0).setText(file.getName());
@@ -444,7 +413,7 @@ public class JEditFXController implements Initializable {
                 file = fileChooser.showSaveDialog(stage);
                 if (file != null) {
                     BufferedWriter out = Files.newBufferedWriter(file.toPath(), Charset.forName("UTF-8"));
-                    out.write(textarea.getText());
+                    out.write(textarea2.getText());
                     out.close();
                     Platform.runLater(() -> {
                         tabbedPane.getTabs().get(0).setText(file.getName());
@@ -462,21 +431,21 @@ public class JEditFXController implements Initializable {
     }
     
     public CodeArea getTextarea() {
-        return textarea;
+        return textarea2;
     }
     
     @FXML
     private void FontIncreaseAction(ActionEvent event) {
         fontSize = fontSize + 1;
         String st = "-fx-font-size: " + fontSize + "pt;";
-        textarea.setStyle(st);
+        textarea2.setStyle(st);
     }
     
     @FXML
     private void FontDecreaseAction(ActionEvent event) {
-        textarea.setStyle("");
+        textarea2.setStyle("");
         fontSize = fontSize - 1;
-        textarea.setStyle("-fx-font-size: " + fontSize + "pt;");
+        textarea2.setStyle("-fx-font-size: " + fontSize + "pt;");
     }
     
     public void setFile(File file) {
@@ -502,7 +471,7 @@ public class JEditFXController implements Initializable {
     public void setFontSize(int fontSize) {
         this.fontSize = fontSize;
         String st = "-fx-font-size: " + fontSize + "pt;";
-        textarea.setStyle(st);
+        textarea2.setStyle(st);
     }
     
     @FXML
@@ -511,7 +480,7 @@ public class JEditFXController implements Initializable {
             searchQuantityLabel.setVisible(false);
             progressLabel.setVisible(true);
             progressLabel.setText("Finding text...");
-            Task<StyleSpans<Collection<String>>> task = new Task<StyleSpans<Collection<String>>>() {
+            /*Task<StyleSpans<Collection<String>>> task = new Task<StyleSpans<Collection<String>>>() {
                 @Override
                 protected StyleSpans<Collection<String>> call() throws Exception {
                     Pattern pattern;
@@ -525,11 +494,11 @@ public class JEditFXController implements Initializable {
             };
             task.setOnSucceeded((WorkerStateEvent t) -> {
                 progressLabel.setVisible(false);
-                textarea.setStyleSpans(0, (StyleSpans<Collection<String>>) t.getSource().getValue());
-                for (Paragraph<Collection<String>, String, Collection<String>> p : textarea.getParagraphs()) {
+                textarea2.setStyleSpans(0, (StyleSpans<Collection<String>>) t.getSource().getValue());
+                for (Paragraph<Collection<String>, String, Collection<String>> p : textarea2.getParagraphs()) {
                     if (p.getStyleSpans().getSpanCount() > 1) {
-                        textarea.showParagraphInViewport(textarea.getParagraphs().indexOf(p));
-                        textarea.moveTo(textarea.getParagraphs().indexOf(p), 0);
+                        textarea2.showParagraphInViewport(textarea2.getParagraphs().indexOf(p));
+                        textarea2.moveTo(textarea2.getParagraphs().indexOf(p), 0);
                         break;
                     }
                 }
@@ -537,11 +506,11 @@ public class JEditFXController implements Initializable {
             task.setOnFailed((WorkerStateEvent t) -> {
                 progressLabel.setVisible(false);
             });
-            executor.submit(task);
+            executor.submit(task);*/
         }
     }
     
-    private StyleSpans<Collection<String>> computeHighlighting(Pattern patter, String text) {
+    /*private StyleSpans<Collection<String>> computeHighlighting(Pattern patter, String text) {
         Matcher matcher = patter.matcher(text);
         int lastKwEnd = 0;
         StyleSpansBuilder<Collection<String>> spansBuilder
@@ -567,41 +536,14 @@ public class JEditFXController implements Initializable {
         });
         spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
         return spansBuilder.create();
+    }*/
+    
+    @FXML
+    private void ScrollNextAction(ActionEvent event) {        
     }
     
     @FXML
-    private void ScrollNextAction(ActionEvent event) {
-        int currentParagraph = textarea.getCurrentParagraph() + 1;
-        if (currentParagraph > textarea.getParagraphs().size()) {
-            currentParagraph = textarea.getParagraphs().size();
-        }
-        for (int i = currentParagraph; i < textarea.getParagraphs().size(); i++) {
-            Paragraph<Collection<String>, String, Collection<String>> p = textarea.getParagraphs().get(i);
-            if (p.getStyleSpans().getSpanCount() > 1) {
-                textarea.showParagraphInViewport(textarea.getParagraphs().indexOf(p));
-                textarea.moveTo(textarea.getParagraphs().indexOf(p), 0);
-                break;
-            }
-        }
-    }
-    
-    @FXML
-    private void ScrollPrevAction(ActionEvent event) {
-        int currentParagraph = textarea.getCurrentParagraph() - 1;
-        if (currentParagraph == -1) {
-            currentParagraph = 0;
-        }
-        for (int i = currentParagraph; i < textarea.getParagraphs().size(); i--) {
-            if (i < 0) {
-                break;
-            }
-            Paragraph<Collection<String>, String, Collection<String>> p = textarea.getParagraphs().get(i);
-            if (p.getStyleSpans().getSpanCount() > 1) {
-                textarea.showParagraphInViewport(textarea.getParagraphs().indexOf(p));
-                textarea.moveTo(textarea.getParagraphs().indexOf(p), 0);
-                break;
-            }
-        }
+    private void ScrollPrevAction(ActionEvent event) {        
     }
     
 }
