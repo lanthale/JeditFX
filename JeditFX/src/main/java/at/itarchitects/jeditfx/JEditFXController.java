@@ -382,6 +382,7 @@ public class JEditFXController implements Initializable {
     @FXML
     private void closeFileAction(ActionEvent event) {
         file = null;
+        textarea2.clear();
         isChanged.setValue(Boolean.FALSE);
         filePos = 0;
         startViewFileLine = 1;

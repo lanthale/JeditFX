@@ -15,7 +15,7 @@
         <app.name>JeditFX</app.name>        
         <maven.build.timestamp.format>yy.ww.WWkkmm</maven.build.timestamp.format>
         <app.version>1.0.7</app.version>        
-        <jvm.modules>java.base,jdk.management,java.naming,java.sql,java.transaction.xa,java.xml,jdk.unsupported,java.management,java.datatransfer,java.desktop,java.security.jgss,java.xml.crypto,jdk.javadoc,javafx.media,javafx.controls,javafx.fxml,javafx.graphics,javafx.base,javafx.swing,javafx.web,jfx.incubator.richtext,java.logging,jdk.charsets,java.net.http,java.prefs,jdk.crypto.ec,jdk.crypto.cryptoki,jdk.localedata,java.compiler,jdk.net,java.instrument,java.scripting,java.rmi</jvm.modules>
+        <jvm.modules>java.base,jdk.management,java.naming,java.sql,java.transaction.xa,java.xml,jdk.unsupported,java.management,java.datatransfer,java.desktop,java.security.jgss,java.xml.crypto,jdk.javadoc,javafx.media,javafx.controls,javafx.fxml,javafx.graphics,javafx.base,javafx.swing,javafx.web,jfx.incubator.richtext,jfx.incubator.input,java.logging,jdk.charsets,java.net.http,java.prefs,jdk.crypto.ec,jdk.crypto.cryptoki,jdk.localedata,java.compiler,jdk.net,java.instrument,java.scripting,java.rmi</jvm.modules>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>23</maven.compiler.source>
         <maven.compiler.target>23</maven.compiler.target>        
