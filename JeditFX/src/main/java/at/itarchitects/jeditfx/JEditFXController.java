@@ -80,7 +80,7 @@ public class JEditFXController implements Initializable {
     private Button saveButton;
     @FXML
     private VBox vbox;    
-    private CodeArea textarea2;
+    private CodeArea textarea;
     
     private Stage stage;    
     private File file;
@@ -143,15 +143,15 @@ public class JEditFXController implements Initializable {
                 .addAll(
                         new FileChooser.ExtensionFilter("All Files", "*.*"),
                         new FileChooser.ExtensionFilter("Text Files", "*.txt"));        
-        textarea2 = new CodeArea();
-        textarea2.setLineNumbersEnabled(true);        
-        textarea2.setWrapText(wrapTextCheckBox.isSelected());
+        textarea = new CodeArea();
+        textarea.setLineNumbersEnabled(true);        
+        textarea.setWrapText(wrapTextCheckBox.isSelected());
         
         iconview = new FontIcon("fa-arrow-circle-left:12");
         iconviewDelete = new FontIcon("fa-trash:12");
         
         //mainview.getChildren().add(panev);
-        mainview.getChildren().add(textarea2);
+        mainview.getChildren().add(textarea);
         filePos = 0;
         doubleProgress = new SimpleDoubleProperty();
         stringProperty = new SimpleStringProperty();
@@ -161,22 +161,22 @@ public class JEditFXController implements Initializable {
                 progressLabel.setText(stringProperty.getValue());
             });
         });
-        textarea2.setOnDragOver((DragEvent event) -> {
-            if (event.getGestureSource() != textarea2
+        textarea.setOnDragOver((DragEvent event) -> {
+            if (event.getGestureSource() != textarea
                     && event.getDragboard().hasFiles()) {
                 /* allow for both copying and moving, whatever user chooses */
                 event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
             }
             event.consume();
         });
-        textarea2.setOnDragDropped((t) -> {
+        textarea.setOnDragDropped((t) -> {
             Dragboard db = t.getDragboard();
             if (db.hasFiles() == true) {
                 this.file = db.getFiles().get(0);
                 progressInfo.setVisible(true);
                 //progressBar.setProgress(0);
                 progressLabel.setText("Start reading...");
-                textarea2.clear();
+                textarea.clear();
                 
                 Task<Object> task = new Task<Object>() {
                     @Override
@@ -213,7 +213,7 @@ public class JEditFXController implements Initializable {
     
     @FXML
     public void exit() {
-        if (textarea2.getText().isEmpty()) {
+        if (textarea.getText().isEmpty()) {
             executor.shutdownNow();
             App.saveSettings((Stage) mainview.getScene().getWindow(), this);
             System.exit(0);
@@ -260,7 +260,7 @@ public class JEditFXController implements Initializable {
         progressInfo.setVisible(true);
         progressBar.setVisible(true);
         progressLabel.setText("Start reading...");
-        textarea2.clear();
+        textarea.clear();
         
         Task<String> task = new Task<>() {
             @Override
@@ -296,7 +296,7 @@ public class JEditFXController implements Initializable {
                             //ob.append(txt).append("\n"); 
                             //ob.append(txt).append("\n"); 
                             ob.append(txt + "\n");
-                            textarea2.appendText(txt+"\n");
+                            textarea.appendText(txt+"\n");
                             count = count + 1;
                         }
                     }
@@ -344,7 +344,7 @@ public class JEditFXController implements Initializable {
                         final double pVal = (double) count / linesToRead;
                         final String pstr = 100 * (double) count / linesToRead + "%";
                     }
-                    textarea2.appendText(txt + "\n");
+                    textarea.appendText(txt + "\n");
                 }
                 count = count + 1;
             }
@@ -382,12 +382,12 @@ public class JEditFXController implements Initializable {
     @FXML
     private void closeFileAction(ActionEvent event) {
         file = null;
-        textarea2.clear();
+        textarea.clear();
         isChanged.setValue(Boolean.FALSE);
         filePos = 0;
         startViewFileLine = 1;
         endViewFileLine = 1;
-        textarea2.clear();
+        textarea.clear();
         sizeLabel.setText("Lines: ");
         linesLabel.setText("Size: ");
         charsetLabel.setText("DEFAULT");
@@ -403,7 +403,7 @@ public class JEditFXController implements Initializable {
             progressLabel.setText("Saving file...");
             if (file != null) {
                 BufferedWriter out = Files.newBufferedWriter(file.toPath(), Charset.forName("UTF-8"), StandardOpenOption.WRITE);
-                out.write(textarea2.getText());
+                out.write(textarea.getText());
                 out.close();
                 Platform.runLater(() -> {
                     tabbedPane.getTabs().get(0).setText(file.getName());
@@ -414,7 +414,7 @@ public class JEditFXController implements Initializable {
                 file = fileChooser.showSaveDialog(stage);
                 if (file != null) {
                     BufferedWriter out = Files.newBufferedWriter(file.toPath(), Charset.forName("UTF-8"));
-                    out.write(textarea2.getText());
+                    out.write(textarea.getText());
                     out.close();
                     Platform.runLater(() -> {
                         tabbedPane.getTabs().get(0).setText(file.getName());
@@ -432,21 +432,21 @@ public class JEditFXController implements Initializable {
     }
     
     public CodeArea getTextarea() {
-        return textarea2;
+        return textarea;
     }
     
     @FXML
     private void FontIncreaseAction(ActionEvent event) {
         fontSize = fontSize + 1;
         String st = "-fx-font-size: " + fontSize + "pt;";
-        textarea2.setStyle(st);
+        textarea.setStyle(st);
     }
     
     @FXML
     private void FontDecreaseAction(ActionEvent event) {
-        textarea2.setStyle("");
+        textarea.setStyle("");
         fontSize = fontSize - 1;
-        textarea2.setStyle("-fx-font-size: " + fontSize + "pt;");
+        textarea.setStyle("-fx-font-size: " + fontSize + "pt;");
     }
     
     public void setFile(File file) {
@@ -472,7 +472,7 @@ public class JEditFXController implements Initializable {
     public void setFontSize(int fontSize) {
         this.fontSize = fontSize;
         String st = "-fx-font-size: " + fontSize + "pt;";
-        textarea2.setStyle(st);
+        textarea.setStyle(st);
     }
     
     @FXML
