@@ -15,10 +15,10 @@
         <app.name>JeditFX</app.name>        
         <maven.build.timestamp.format>yy.ww.WWkkmm</maven.build.timestamp.format>
         <app.version>1.0.7</app.version>        
-        <jvm.modules>java.base,jdk.management,java.naming,java.sql,java.transaction.xa,java.xml,jdk.unsupported,java.management,java.datatransfer,java.desktop,java.security.jgss,java.xml.crypto,jdk.javadoc,javafx.media,javafx.controls,javafx.fxml,javafx.graphics,javafx.base,javafx.swing,javafx.web,jfx.incubator.richtext,jfx.incubator.input,java.logging,jdk.charsets,java.net.http,java.prefs,jdk.crypto.ec,jdk.crypto.cryptoki,jdk.localedata,java.compiler,jdk.net,java.instrument,java.scripting,java.rmi</jvm.modules>
+        <jvm.modules>java.base,jdk.management,java.naming,java.sql,java.transaction.xa,java.xml,jdk.unsupported,java.management,java.datatransfer,java.desktop,java.security.jgss,java.xml.crypto,jdk.javadoc,javafx.media,javafx.controls,javafx.fxml,javafx.graphics,javafx.base,javafx.swing,jfx.incubator.richtext,java.logging,jdk.charsets,java.net.http,java.prefs,jdk.crypto.ec,jdk.crypto.cryptoki,jdk.localedata,java.compiler,jdk.net,java.instrument,java.scripting,java.rmi</jvm.modules>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>23</maven.compiler.source>
-        <maven.compiler.target>23</maven.compiler.target>        
+        <maven.compiler.source>24</maven.compiler.source>
+        <maven.compiler.target>24</maven.compiler.target>        
         <javafx.version>25-ea+18</javafx.version>
         <!-- unique UUID via https://www.uuidgenerator.net -->
         <windows.upgrade.uuid>3559e02e-f0f5-4bdf-ac71-a839a33f6b7e</windows.upgrade.uuid>
@@ -97,12 +97,7 @@
             <groupId>org.openjfx</groupId>
             <artifactId>jfx-incubator-input</artifactId>
             <version>${javafx.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>jfx-incubator-input</artifactId>
-            <version>${javafx.version}</version>
-        </dependency>                
+        </dependency>        
     </dependencies>
 
     <build>
@@ -238,8 +233,6 @@
                                 <option>--enable-native-access ALL-UNNAMED</option>                                
                                 <option>--add-exports=javafx.graphics/com.sun.javafx.util=ALL-UNNAMED</option>  
                                 <option>--add-exports=javafx.base/com.sun.javafx=ALL-UNNAMED</option>                                
-                                <option>--add-exports=javafx.graphics/com.sun.javafx.iio=ALL-UNNAMED</option>                                
-                                <option>--add-exports=javafx.graphics/com.sun.javafx.iio.common=ALL-UNNAMED</option>                              
                             </options>
                         </configuration>
                     </execution>
@@ -254,8 +247,8 @@
                                 <option>-XX:+UseZGC</option>
                                 <option>--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls</option>  
                                 <option>--enable-native-access ALL-UNNAMED</option>                                
-                                <option>--add-exports=javafx.graphics/com.sun.javafx.iio=ALL-UNNAMED</option>                                
-                                <option>--add-exports=javafx.graphics/com.sun.javafx.iio.common=ALL-UNNAMED</option>                                 
+                                <option>--add-exports=javafx.graphics/com.sun.javafx.util=ALL-UNNAMED</option>  
+                                <option>--add-exports=javafx.base/com.sun.javafx=ALL-UNNAMED</option>                                 
                             </options>
                         </configuration>
                     </execution>
@@ -267,7 +260,10 @@
                             <options>                                     
                                 <option>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</option>                                    
                                 <option>-XX:+UseZGC</option>
-                                <option>--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls</option>                                
+                                <option>--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls</option>  
+                                <option>--enable-native-access ALL-UNNAMED</option>                                
+                                <option>--add-exports=javafx.graphics/com.sun.javafx.util=ALL-UNNAMED</option>  
+                                <option>--add-exports=javafx.base/com.sun.javafx=ALL-UNNAMED</option> 
                             </options>
                         </configuration>
                     </execution>
@@ -283,7 +279,10 @@
                                 <option>${profiler.jvmargs.arg4}</option>
                                 <option>${profiler.jvmargs.arg5}</option> 
                                 <option>-XX:+UseZGC</option>
-                                <option>--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls</option>                                                                   
+                                <option>--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls</option>  
+                                <option>--enable-native-access ALL-UNNAMED</option>                                
+                                <option>--add-exports=javafx.graphics/com.sun.javafx.util=ALL-UNNAMED</option>  
+                                <option>--add-exports=javafx.base/com.sun.javafx=ALL-UNNAMED</option> 
                             </options>
                         </configuration>
                     </execution>
