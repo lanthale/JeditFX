@@ -9,6 +9,7 @@
 --runtime-image ${project.build.directory}/jvm-image
 --resource-dir ${project.basedir}/res/osx
 --java-options -XX:+UseZGC
+--java-options --enable-preview
 --java-options --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED 
 --java-options --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls
 --java-options --enable-native-access=ALL-UNNAMED
