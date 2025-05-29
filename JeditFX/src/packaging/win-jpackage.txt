@@ -1,4 +1,4 @@
---type app-image
+--type msi
 --name ${app.name}
 --vendor ${windows.vendor}
 --icon ${project.basedir}\res\win\icon.ico
