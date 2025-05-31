@@ -13,6 +13,7 @@
 --java-options --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED 
 --java-options --add-opens=javafx.graphics/javafx.scene=org.controlsfx.controls
 --java-options --add-modules=jfx.incubator.richtext
+--java-options --add-modules=jfx.incubator.input
 --java-options --enable-native-access=ALL-UNNAMED
 --java-options --add-exports=javafx.graphics/com.sun.javafx.util=ALL-UNNAMED
 --java-options --add-exports=javafx.base/com.sun.javafx=ALL-UNNAMED
