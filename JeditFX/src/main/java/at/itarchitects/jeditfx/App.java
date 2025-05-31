@@ -60,10 +60,12 @@ public class App extends Application {
                         }
                         //scene = new Scene(root, 640, 480);
                         controller = fxmlLoader.getController();
-                        File targetFile = new File(filenames[0]);
+                        Logger.getLogger("at.itarchitects.jeditfx").log(Level.ALL, "Getting File to load " + filenames[0]);
+                        Logger.getLogger("at.itarchitects.jeditfx").log(Level.ALL, "Getting File to load " + filenames[1]);                        
+                        File targetFile = new File(filenames[1]);
                         Logger.getLogger("at.itarchitects.jeditfx").log(Level.SEVERE, "Getting File to load " + filenames[0]);
                         if (targetFile.isDirectory() == false) {
-                            controller.setFile(new File(filenames[0]));
+                            controller.setFile(targetFile);
                             controller.openFileAction(null);
                         }
                     }
